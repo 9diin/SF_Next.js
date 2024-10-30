@@ -18,7 +18,7 @@ const obj = {
     age: 10,
     ["my name"]: "daffy3",
 };
-obj["my name"];
+console.log(obj["my name"]);
 
 /**
  * 상수는 대문자로 네이밍하는 것이 관례/관습이다.

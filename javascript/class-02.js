@@ -55,6 +55,7 @@ if (truthy) {
  */
 let value1 = null;
 console.log(value1); // null
+console.log(typeof value1); // object
 
 setTimeout(function () {
     value1 = 30;
