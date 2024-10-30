@@ -16,7 +16,7 @@ console.log(typeof {}); // object
 console.log([].constructor === Array); // true
 console.log({}.constructor === Object); // true
 
-/** null 데이터는 어떻게 타입을 */
+/** null 데이터는 어떻게 타입을 확인할 수 있을까? */
 console.log(Object.prototype.toString.call(null)); // [object Null]
 console.log(Object.prototype.toString.call(null).slice(8, -1)); // Null
 
