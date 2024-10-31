@@ -1,50 +1,14 @@
-# React + TypeScript + Vite
+### 필수 라이브러리 설치
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. 프로젝트 생성: `npm create vite@latest`
+2. SASS/SCSS 설치: `npm install -D sass`
+3. Tailwind CSS 설치:
 
-Currently, two official plugins are available:
+-   `npm install -D tailwindcss postcss autoprefixer`
+-   `npx tailwindcss init -p`
 
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+4. 타입스크립트 파일을 tsc로 자바스크립트 파일로 컴파일하고 node로 실행하는 과정을 명령어 한번으로 줄여주는 도구: `npm i -D @types/node`
+5. Shadcn UI 설치: `npx shadcn@latest init`
+6. 리액트 라우터 설치:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
--   Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-    languageOptions: {
-        // other options...
-        parserOptions: {
-            project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-            tsconfigRootDir: import.meta.dirname,
-        },
-    },
-});
-```
-
--   Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
--   Optionally add `...tseslint.configs.stylisticTypeChecked`
--   Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
-
-export default tseslint.config({
-    // Set the react version
-    settings: { react: { version: "18.3" } },
-    plugins: {
-        // Add the react plugin
-        react,
-    },
-    rules: {
-        // other rules...
-        // Enable its recommended rules
-        ...react.configs.recommended.rules,
-        ...react.configs["jsx-runtime"].rules,
-    },
-});
-```
+-   `npm install react-router-dom`
