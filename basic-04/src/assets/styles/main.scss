@@ -1,0 +1,27 @@
+@use "colors";
+@use "fonts";
+
+* {
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+}
+
+.page {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__container {
+        width: 100%;
+        height: 100%;
+
+        max-width: 1440px;
+
+        display: flex;
+
+        background-color: colors.$color-gray-100;
+    }
+}

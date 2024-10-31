@@ -1,5 +1,5 @@
-@import "./colors";
-@import "./fonts";
+@use "./colors.scss" as *;
+@use "./fonts.scss" as *;
 
 * {
     font-family: "Noto Sans KR", sans-serif;
@@ -15,10 +15,10 @@
     justify-content: center;
 
     &__container {
-        width: 100%;
+        width: 1440px;
         height: 100%;
 
-        max-width: 1440px;
+        display: flex;
 
         background-color: $color-gray-500;
     }
