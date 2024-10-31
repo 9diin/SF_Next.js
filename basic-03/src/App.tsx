@@ -1,16 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./assets/styles/globals.css";
-
 /** 페이지 */
-import HomePage from "@/views/Home";
-import AboutPage from "@/views/About";
+import HomePage from "./views/home/Home";
+import AboutPage from "./views/about/About";
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/about/:id" element={<AboutPage />} />
+                <Route index path="/" element={<HomePage />}></Route>
+                <Route path="about/:id" element={<AboutPage />}></Route>
             </Routes>
         </BrowserRouter>
     );
