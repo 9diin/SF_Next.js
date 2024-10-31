@@ -128,3 +128,29 @@ biologist?.length; // OK
 
 biologist = "BTS";
 biologist.length; // OK
+
+/** 타입 별칭
+ * 타입 스크립트에는 재사용하는 타입에 더 쉬운 이름을 할당하는 '타입 별칭(type alias)'이 있습니다.
+ * 타입 별칭은 'type 새로운 이름 = 타입'의 형태를 갖습니다. 편의상 타입 별칭은 파스칼 케이스로 이름을 지정합니다.
+ * 타입 별칭은 타입 시스템의 '복사해서 붙여넣기'처럼 작동합니다. 타입 스크립트가 타입 별칭을 발견하면 해당 별칭이 참조하는 실제 타입을 입력한 것처럼 작동합니다.
+ *
+ * 타입 별칭은 자바스크립트가 아닙니다.
+ * 타입 별칭은 타입 애너테이션처럼 자바스크립트로 컴파일되지 않습니다.
+ * 순전히 타입스크립트 타입 시스템에만 존재합니다. 타입 별칭은 순전히 타입 시스템에만 존재하므로 런타임 코드에서는 참조할 수 없습니다.
+ * 타입 스크립트는 런타임에 존재하지 않는 항목에 접근하려고 하면 타입 오류로 알려줍니다.
+ */
+
+type RawData = boolean | number | string | null | undefined;
+
+let rawDataFirst: RawData;
+let rawDataSecond: RawData;
+let rawDataThird: RawData;
+
+/** 타입 별칭 결합
+ * 타입 별칭은 다른 타입 별칭을 참조할 수 있습니다.
+ * 유니언 타입인 타입 별칭 내에 또 다른 유니언 타입인 타입 별칭을 포함하고 있다면 다른 타입 별칭을 참조하는 것이 유용합니다.
+ * 사용 순서대로 타입 별칭을 선언할 필요는 없습니다. 파일 내에서 타입 별칭을 먼저 선언하고 참조할 타입 별칭을 나중에 선언해도 됩니다.
+ */
+
+type Id = number | string;
+type IdMaybe = Id | undefined | null; // IdMaybe 타입은 다음과 같다. : number | string | undefined | null
