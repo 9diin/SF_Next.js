@@ -14,3 +14,7 @@
 -   `npm install localforage match-sorter sort-by`
 
 6. SASS 설치: `npm install sass --save-dev`
+7. React Kakao Map 참고 문서:
+
+-   `https://react-kakao-maps-sdk.jaeseokim.dev/`
+-   `npm install react-kakao-maps-sdk`
