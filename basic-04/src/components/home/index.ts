@@ -1,1 +1,2 @@
-import { GetTodayCard } from "./GetTodayCard";
+export { GetTodayCard } from "./GetTodayCard";
+export { GetDaysCard } from "./GetDaysCard";

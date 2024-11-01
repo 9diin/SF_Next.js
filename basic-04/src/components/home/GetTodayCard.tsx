@@ -7,7 +7,7 @@ function GetTodayCard() {
         <Card className="w-full">
             <CardHeader>
                 <CardTitle className="text-xl">Today</CardTitle>
-                <CardDescription>오늘의 현재 날씨를 조회하고 있습니다.</CardDescription>
+                <CardDescription>오늘 현재 날씨를 조회하고 있습니다.</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="w-full flex items-center gap-6">
@@ -21,11 +21,11 @@ function GetTodayCard() {
                         </div>
                         <Separator className="my-2" />
                         <div className="w-full flex flex-col">
-                            <div className="flex items-center justify-start gap-1">
+                            <div className="flex items-center justify-start gap-2">
                                 <CalendarDays className="h-4 w-4" />
                                 <p className="leading-6">2024. 11. 01.</p>
                             </div>
-                            <div className="flex items-center justify-start gap-1">
+                            <div className="flex items-center justify-start gap-2">
                                 <MapPinned className="h-4 w-4" />
                                 <p className="leading-6">대한민국 서울</p>
                             </div>
