@@ -6,8 +6,7 @@
 -   `npm install -D tailwindcss postcss autoprefixer`
 -   `npx tailwindcss init -p`
 
-3. (so you can import "path" without error) :
-   `npm i -D @types/node`
+3. (so you can import "path" without error) : `npm i -D @types/node`
 4. Shadcn UI 설치 : `npx shadcn@latest init`
 5. 리액트 라우터 설치 :
 
