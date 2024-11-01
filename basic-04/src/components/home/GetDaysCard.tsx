@@ -12,7 +12,7 @@ interface Props {
 
 function GetDaysCard({ data }: Props) {
     return (
-        <Card className="w-full">
+        <Card className="w-1/4">
             <CardHeader>
                 <CardTitle className="text-xl">7 Days</CardTitle>
                 <CardDescription>이번주 날씨를 조회하고 있습니다.</CardDescription>

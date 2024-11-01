@@ -2,13 +2,13 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 
 function GetTodayHighlightsCard() {
     return (
-        <Card className="w-full h-fit">
+        <Card className="flex-1">
             <CardHeader>
                 <CardTitle className="text-xl">Today's Highlights</CardTitle>
                 <CardDescription>오늘 날씨 중 주의깊게 살펴보아야 할 이벤트를 조회하고 있습니다.</CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col gap-6">
-                <div className="flex items-center gap-6">
+            <CardContent className="flex flex-col gap-5">
+                <div className="flex items-center gap-5">
                     <Card className="w-full bg-neutral-100">
                         <CardHeader>
                             <CardDescription className="font-semibold text-neutral-700">
@@ -63,7 +63,7 @@ function GetTodayHighlightsCard() {
                         </CardContent>
                     </Card>
                 </div>
-                <div className="w-full grid grid-cols-4 gap-6">
+                <div className="w-full grid grid-cols-4 gap-5">
                     <Card className="w-full h-fit bg-neutral-50">
                         <CardHeader>
                             <CardDescription className="font-semibold text-neutral-700">

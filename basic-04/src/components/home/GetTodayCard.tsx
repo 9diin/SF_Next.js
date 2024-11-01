@@ -4,16 +4,13 @@ import { CalendarDays, MapPinned } from "lucide-react";
 
 function GetTodayCard() {
     return (
-        <Card className="w-full">
+        <Card className="w-1/4">
             <CardHeader>
                 <CardTitle className="text-xl">Today</CardTitle>
                 <CardDescription>오늘 현재 날씨를 조회하고 있습니다.</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="w-full flex items-center gap-6">
-                    <div className="w-[45%] flex items-center justify-center">
-                        <img src="/assets/icons/Sunny.svg" alt="" className="h-32 w-32" />
-                    </div>
                     <div className="w-[55%] h-full flex flex-col">
                         <div className="w-full flex items-start gap-1">
                             <span className="poppins-bold scroll-m-20 text-6xl font-extrabold tracking-tight">25</span>
@@ -30,6 +27,9 @@ function GetTodayCard() {
                                 <p className="leading-6">대한민국 서울</p>
                             </div>
                         </div>
+                    </div>
+                    <div className="w-[45%] flex items-center justify-center">
+                        <img src="/assets/icons/Sunny.svg" alt="" className="h-32 w-32" />
                     </div>
                 </div>
             </CardContent>

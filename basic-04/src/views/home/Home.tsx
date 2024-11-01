@@ -1,6 +1,5 @@
 import { CommonHeader } from "@/components/common";
-import { GetTodayCard, GetDaysCard, GetTodayHighlightsCard, GetKakaoMapCard } from "@/components/home";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { GetTodayCard, GetDaysCard, GetTodayHighlightsCard, GetKakaoMapCard, GetHourlyCard } from "@/components/home";
 import { useState } from "react";
 
 function HomePage() {
@@ -52,17 +51,15 @@ function HomePage() {
         <div className="page">
             <div className="page__container bg-stone-900">
                 <CommonHeader />
-                <div className="w-full h-full flex items-center justify-center p-6 gap-6">
-                    <div className="w-1/4 h-full flex flex-col items-flex justify-start gap-6">
+                <div className="w-full h-full flex flex-col items-center justify-start pb-6 px-6 gap-6">
+                    <div className="w-full flex items-flex justify-start gap-6">
                         <GetTodayCard />
-                        <GetDaysCard data={oneWeeks} />
+                        <GetHourlyCard />
+                        <GetKakaoMapCard />
                     </div>
-                    <div className="w-3/4 h-full flex flex-col items-center justify-start gap-6">
+                    <div className="w-full flex items-center gap-6">
                         <GetTodayHighlightsCard />
-                        <div className="w-full h-full grid grid-cols-2 gap-6">
-                            <Card className="w-full flex-1"></Card>
-                            <GetKakaoMapCard />
-                        </div>
+                        <GetDaysCard data={oneWeeks} />
                     </div>
                 </div>
             </div>
