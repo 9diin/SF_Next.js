@@ -21,19 +21,31 @@ function GetTodayHighlightsCard() {
                             <div className="w-fit grid grid-cols-4 gap-3">
                                 <div className="flex flex-col items-center">
                                     <p className="text-sm text-muted-foreground">1회 - 만조</p>
-                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">04:47 AM</p>
+                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
+                                        04:47
+                                        <span className="ml-[1px]">am</span>
+                                    </p>
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <p className="text-sm text-muted-foreground">2회 - 간조</p>
-                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">10:58 AM</p>
+                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
+                                        10:58
+                                        <span className="ml-[1px]">am</span>
+                                    </p>
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <p className="text-sm text-muted-foreground">3회 - 만조</p>
-                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">17:14 PM</p>
+                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
+                                        17:14
+                                        <span className="ml-[1px]">pm</span>
+                                    </p>
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <p className="text-sm text-muted-foreground">4회 - 간조</p>
-                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">23:21 PM</p>
+                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
+                                        23:21
+                                        <span className="ml-[1px]">pm</span>
+                                    </p>
                                 </div>
                             </div>
                         </CardContent>
