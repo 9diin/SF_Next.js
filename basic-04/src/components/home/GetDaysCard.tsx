@@ -20,17 +20,17 @@ function GetDaysCard({ data }: Props) {
             <CardContent className="flex flex-col w-full gap-1">
                 {data.map((item: WeatherInfo) => {
                     return (
-                        <div className="w-full flex items-center gap-7" key={item.day}>
+                        <div className="w-full flex items-center gap-7 bg-neutral-50 py-0 px-3 rounded-md" key={item.day}>
                             <div className="w-fit h-10 flex items-center gap-1">
-                                <img src={`/assets/icons/${item.icon}.svg`} alt="" className="h-9 w-9" />
+                                <img src={`/assets/icons/${item.icon}.svg`} alt="" className="h-7 w-7" />
                                 <div className="w-full h-full flex items-start gap-[2px] mt-3">
-                                    <span className="poppins-medium scroll-m-20 text-xl font-semibold tracking-tight">{item.temp}</span>
-                                    <span className="font-extrabold">&#8451;</span>
+                                    <span className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">{item.temp}</span>
+                                    <span className="text-xs font-extrabold mt-[3px]">&#8451;</span>
                                 </div>
                             </div>
                             <div className="flex-1 flex items-center justify-end gap-5 mb-1">
-                                <small className="text-base leading-none">{item.date} Nov</small>
-                                <small className="text-base leading-none">{item.day}</small>
+                                <small className="text-sm leading-none">{item.date} Nov</small>
+                                <small className="text-sm leading-none">{item.day}</small>
                             </div>
                         </div>
                     );

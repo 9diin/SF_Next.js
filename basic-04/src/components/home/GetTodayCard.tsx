@@ -29,7 +29,7 @@ function GetTodayCard() {
                         </div>
                     </div>
                     <div className="w-[45%] flex items-center justify-center">
-                        <img src="/assets/icons/Sunny.svg" alt="" className="h-32 w-32" />
+                        <img src="/assets/icons/Scattered-thunderstorm.svg" alt="" className="h-32 w-32" />
                     </div>
                 </div>
             </CardContent>
