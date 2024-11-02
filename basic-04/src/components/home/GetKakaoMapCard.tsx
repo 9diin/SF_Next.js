@@ -6,7 +6,7 @@ function GetKakaoMapCard() {
     useKakaoLoader();
 
     return (
-        <Card className="w-1/4">
+        <Card className="w-1/4 min-w-[25%]">
             <Map // 지도를 표시할 Container
                 id="map"
                 center={{
