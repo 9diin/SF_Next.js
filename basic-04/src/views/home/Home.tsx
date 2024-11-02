@@ -3,7 +3,7 @@ import axios from "axios";
 /** 컴포넌트 */
 import { CommonHeader } from "@/components/common";
 import { GetTodayCard, GetDaysCard, GetTodayHighlightsCard, GetKakaoMapCard, GetHourlyCard } from "@/components/home";
-import { Weather } from "@/types";
+import { ForecastDay, ForecastTideDay, Weather } from "@/types";
 
 const defaultWeatherData: Weather = {
     current: {
@@ -50,53 +50,54 @@ const defaultWeatherData: Weather = {
     forecast: { forecastday: [] },
 };
 
+const defaultTideData: ForecastTideDay = {
+    astro: {
+        is_moon_up: 0,
+        is_sun_up: 0,
+        moon_illumination: 0,
+        moon_phase: "",
+        moonrise: "",
+        moonset: "",
+        sunrise: "",
+        sunset: "",
+    },
+    date: "",
+    date_epoch: 0,
+    day: {
+        avghumidity: 0,
+        avgtemp_c: 0,
+        avgtemp_f: 0,
+        avgvis_km: 0,
+        avgvis_miles: 0,
+        condition: { text: "", icon: "", code: 0 },
+        daily_chance_of_rain: 0,
+        daily_chance_of_snow: 0,
+        daily_will_it_rain: 0,
+        daily_will_it_snow: 0,
+        maxtemp_c: 0,
+        maxtemp_f: 0,
+        maxwind_kph: 0,
+        maxwind_mph: 0,
+        mintemp_c: 0,
+        mintemp_f: 0,
+        totalprecip_in: 0,
+        totalprecip_mm: 0,
+        totalsnow_cm: 0,
+        uv: 0,
+        tides: [
+            {
+                tide: [],
+            },
+        ],
+    },
+    hour: [],
+};
+
 function HomePage() {
     const [loading, setLoading] = useState(true);
     const [weatherData, setWeatherData] = useState<Weather>(defaultWeatherData);
-    const [oneWeeks, setOneWeeks] = useState([
-        {
-            temp: 25,
-            date: "01",
-            day: "월요일",
-            icon: "Sunny",
-        },
-        {
-            temp: 26,
-            date: "02",
-            day: "화요일",
-            icon: "Sunny",
-        },
-        {
-            temp: 27,
-            date: "03",
-            day: "수요일",
-            icon: "Sunny",
-        },
-        {
-            temp: 28,
-            date: "04",
-            day: "목요일",
-            icon: "Sunny",
-        },
-        {
-            temp: 29,
-            date: "05",
-            day: "금요일",
-            icon: "Sunny",
-        },
-        {
-            temp: 30,
-            date: "06",
-            day: "토요일",
-            icon: "Sunny",
-        },
-        {
-            temp: 31,
-            date: "07",
-            day: "일요일",
-            icon: "Sunny",
-        },
-    ]);
+    const [tideData, setTideData] = useState<ForecastTideDay>(defaultTideData);
+    const [weeklyWeatherSummary, setWeeklyWeatherSummary] = useState([]);
 
     const fetchApi = async () => {
         const API_KEY = "1c7db76ae67a4a77ace135210243110";
@@ -105,7 +106,6 @@ function HomePage() {
 
         try {
             const res = await axios.get(`${BASE_URL}/forecast.json?q=seoul&days=7&key=${API_KEY}`);
-            console.log(res);
 
             if (res.status === 200) {
                 setWeatherData(res.data);
@@ -117,8 +117,50 @@ function HomePage() {
         }
     };
 
+    const fetchTideApi = async () => {
+        const API_KEY = "1c7db76ae67a4a77ace135210243110";
+        const BASE_URL = "http://api.weatherapi.com/v1";
+        /** https://api.weatherapi.com/v1/current.json?q=seoul&key=1c7db76ae67a4a77ace135210243110 */
+
+        try {
+            const res = await axios.get(`${BASE_URL}/marine.json?q=seoul&days=1&key=${API_KEY}`);
+
+            if (res.status === 200 && res.data) {
+                setTideData(res.data.forecast.forecastday[0]);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const getOneWeekWeather = async () => {
+        const API_KEY = "1c7db76ae67a4a77ace135210243110";
+        const BASE_URL = "http://api.weatherapi.com/v1";
+        /** https://api.weatherapi.com/v1/current.json?q=seoul&key=1c7db76ae67a4a77ace135210243110 */
+
+        try {
+            const res = await axios.get(`${BASE_URL}/forecast.json?q=seoul&days=7&key=${API_KEY}`);
+            console.log(res);
+
+            if (res.status === 200 && res.data) {
+                const newData = res.data.forecast.forecastday.map((item: ForecastDay) => {
+                    return { maxTemp: Math.round(item.day.maxtemp_c), minTemp: Math.round(item.day.mintemp_c), date: item.date_epoch, iconCode: item.day.condition.code };
+                });
+                setWeeklyWeatherSummary(newData);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         fetchApi();
+        fetchTideApi();
+        getOneWeekWeather();
     }, []);
 
     return (
@@ -132,8 +174,8 @@ function HomePage() {
                         <GetKakaoMapCard />
                     </div>
                     <div className="w-full flex items-center gap-6">
-                        <GetTodayHighlightsCard />
-                        <GetDaysCard data={oneWeeks} />
+                        <GetTodayHighlightsCard currentData={weatherData} tideData={tideData} />
+                        <GetDaysCard data={weeklyWeatherSummary} />
                     </div>
                 </div>
             </div>

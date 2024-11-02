@@ -1,6 +1,28 @@
+import { useMemo } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { ForecastTideDay, Tide, Weather } from "@/types";
 
-function GetTodayHighlightsCard() {
+interface Props {
+    currentData: Weather;
+    tideData: ForecastTideDay;
+}
+
+function useFormattedUnit(time: string) {
+    return useMemo(() => {
+        const [date, hourString] = time.split(" ");
+        const [hour, minute] = hourString.split(":").map(Number);
+        const formattedUnit = hour < 12 ? "am" : "pm";
+
+        return formattedUnit;
+    }, [time]);
+}
+
+function GetTodayHighlightsCard({ currentData, tideData }: Props) {
+    /** 추후에 스켈레톤 ui로 변경 */
+    if (!currentData || !tideData) {
+        return <div>데이터를 불러오는 중입니다...</div>;
+    }
+
     return (
         <Card className="flex-1">
             <CardHeader>
@@ -19,34 +41,17 @@ function GetTodayHighlightsCard() {
                         <CardContent className="w-full flex items-center justify-between">
                             <img src="/assets/icons/Waves.png" alt="" className="h-14" />
                             <div className="w-fit grid grid-cols-4 gap-3">
-                                <div className="flex flex-col items-center">
-                                    <p className="text-sm text-muted-foreground">1회 - 만조</p>
-                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
-                                        04:47
-                                        <span className="ml-[1px]">am</span>
-                                    </p>
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <p className="text-sm text-muted-foreground">2회 - 간조</p>
-                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
-                                        10:58
-                                        <span className="ml-[1px]">am</span>
-                                    </p>
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <p className="text-sm text-muted-foreground">3회 - 만조</p>
-                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
-                                        17:14
-                                        <span className="ml-[1px]">pm</span>
-                                    </p>
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <p className="text-sm text-muted-foreground">4회 - 간조</p>
-                                    <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
-                                        23:21
-                                        <span className="ml-[1px]">pm</span>
-                                    </p>
-                                </div>
+                                {tideData.day.tides[0].tide.map((item: Tide) => {
+                                    return (
+                                        <div className="flex flex-col items-center" key={item.tide_time}>
+                                            <p className="text-sm text-muted-foreground">1회 - {item.tide_type === "HIGH" ? "만조" : "간조"}</p>
+                                            <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
+                                                {item.tide_time.split(" ")[1]}
+                                                <span className="ml-[1px]">{useFormattedUnit(item.tide_time)}</span>
+                                            </p>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </CardContent>
                     </Card>
@@ -62,14 +67,14 @@ function GetTodayHighlightsCard() {
                                 <img src="/assets/icons/Sunny.svg" alt="" className="h-14" />
                                 <div className="flex flex-col">
                                     <p className="text-sm text-muted-foreground">Sunrise</p>
-                                    <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">6:46 AM</p>
+                                    <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">{tideData.astro.sunrise}</p>
                                 </div>
                             </div>
                             <div className="w-full flex items-center gap-2">
                                 <img src="/assets/icons/Clear.svg" alt="" className="h-14" />
                                 <div className="flex flex-col">
                                     <p className="text-sm text-muted-foreground">Sunset</p>
-                                    <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">5:39 PM</p>
+                                    <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">{tideData.astro.sunset}</p>
                                 </div>
                             </div>
                         </CardContent>
@@ -86,7 +91,7 @@ function GetTodayHighlightsCard() {
                         <CardContent className="flex items-center justify-between">
                             <img src="/assets/icons/Humidity.svg" alt="" className="h-10 w-10" />
                             <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">
-                                82
+                                {currentData.current.humidity}
                                 <span className="text-lg ml-1">%</span>
                             </p>
                         </CardContent>
@@ -101,7 +106,7 @@ function GetTodayHighlightsCard() {
                         <CardContent className="flex items-center justify-between">
                             <img src="/assets/icons/Wind.svg" alt="" className="h-10 w-10" />
                             <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">
-                                1,025
+                                {currentData.current.pressure_mb}
                                 <span className="text-lg ml-1">hPa</span>
                             </p>
                         </CardContent>
@@ -116,7 +121,7 @@ function GetTodayHighlightsCard() {
                         <CardContent className="flex items-center justify-between">
                             <img src="/assets/icons/Fog.svg" alt="" className="h-10 w-10" />
                             <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">
-                                10
+                                {currentData.current.vis_km}
                                 <span className="text-lg ml-1">km</span>
                             </p>
                         </CardContent>
@@ -131,7 +136,7 @@ function GetTodayHighlightsCard() {
                         <CardContent className="flex items-center justify-between">
                             <img src="/assets/icons/Hot.svg" alt="" className="h-10 w-10" />
                             <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight flex items-start">
-                                18
+                                {Math.round(currentData.current.feelslike_c)}
                                 <span className="text-lg ml-[2px] -mt-[2px]">&#8451;</span>
                             </p>
                         </CardContent>
