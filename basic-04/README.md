@@ -20,3 +20,4 @@
 -   `npm install react-kakao-maps-sdk`
 
 8. HTTP 통신을 위한 라이브러리 설치: `npm install axios`
+9. 중앙집중식 상태관리 라이브러리 설치: `npm install jotai`
