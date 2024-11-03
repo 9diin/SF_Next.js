@@ -16,7 +16,6 @@ function CommonHeader() {
             // 입력 필드 초기화
             setInputValue("");
             setCityName(inputValue);
-            console.log(cityName);
         }
     };
 
@@ -28,7 +27,7 @@ function CommonHeader() {
                     <h3 className="poppins-bold scroll-m-20 text-2xl font-semibold tracking-tight text-white">Weather.io</h3>
                 </div>
                 <SearchBar
-                    placeholder="검색할 지역 이름을 입력하세요."
+                    placeholder="검색할 지역 이름을 영어로 입력하세요."
                     className="flex-1"
                     onInput={handleChange}
                     value={inputValue}
