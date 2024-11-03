@@ -127,6 +127,7 @@ function HomePage() {
 
         try {
             const res = await axios.get(`${BASE_URL}/marine.json?q=${cityName}&days=1&key=${API_KEY}`);
+            console.log(res);
 
             if (res.status === 200 && res.data) {
                 setTideData(res.data.forecast.forecastday[0]);
@@ -145,7 +146,6 @@ function HomePage() {
 
         try {
             const res = await axios.get(`${BASE_URL}/forecast.json?q=${cityName}&days=7&key=${API_KEY}`);
-            console.log(res);
 
             if (res.status === 200 && res.data) {
                 const newData = res.data.forecast.forecastday.map((item: ForecastDay) => {
