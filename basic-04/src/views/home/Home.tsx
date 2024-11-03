@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAtom } from "jotai";
+import { cityNameAtom } from "@/stores";
 /** 컴포넌트 */
 import { CommonHeader } from "@/components/common";
 import { GetTodayCard, GetDaysCard, GetTodayHighlightsCard, GetKakaoMapCard, GetHourlyCard } from "@/components/home";
@@ -94,6 +96,7 @@ const defaultTideData: ForecastTideDay = {
 };
 
 function HomePage() {
+    const [cityName, setCityName] = useAtom(cityNameAtom);
     const [loading, setLoading] = useState(true);
     const [weatherData, setWeatherData] = useState<Weather>(defaultWeatherData);
     const [tideData, setTideData] = useState<ForecastTideDay>(defaultTideData);
@@ -105,7 +108,7 @@ function HomePage() {
         /** https://api.weatherapi.com/v1/current.json?q=seoul&key=1c7db76ae67a4a77ace135210243110 */
 
         try {
-            const res = await axios.get(`${BASE_URL}/forecast.json?q=seoul&days=7&key=${API_KEY}`);
+            const res = await axios.get(`${BASE_URL}/forecast.json?q=${cityName}&days=7&key=${API_KEY}`);
 
             if (res.status === 200) {
                 setWeatherData(res.data);
@@ -123,7 +126,7 @@ function HomePage() {
         /** https://api.weatherapi.com/v1/current.json?q=seoul&key=1c7db76ae67a4a77ace135210243110 */
 
         try {
-            const res = await axios.get(`${BASE_URL}/marine.json?q=seoul&days=1&key=${API_KEY}`);
+            const res = await axios.get(`${BASE_URL}/marine.json?q=${cityName}&days=1&key=${API_KEY}`);
 
             if (res.status === 200 && res.data) {
                 setTideData(res.data.forecast.forecastday[0]);
@@ -141,7 +144,7 @@ function HomePage() {
         /** https://api.weatherapi.com/v1/current.json?q=seoul&key=1c7db76ae67a4a77ace135210243110 */
 
         try {
-            const res = await axios.get(`${BASE_URL}/forecast.json?q=seoul&days=7&key=${API_KEY}`);
+            const res = await axios.get(`${BASE_URL}/forecast.json?q=${cityName}&days=7&key=${API_KEY}`);
             console.log(res);
 
             if (res.status === 200 && res.data) {
@@ -161,7 +164,7 @@ function HomePage() {
         fetchApi();
         fetchTideApi();
         getOneWeekWeather();
-    }, []);
+    }, [cityName]);
 
     return (
         <div className="page">
