@@ -5,6 +5,7 @@ interface WeatherInfo {
     minTemp: string;
     date: string;
     iconCode: string;
+    isDay: boolean;
 }
 interface Props {
     data: WeatherInfo[];
@@ -35,9 +36,9 @@ function GetDaysCard({ data }: Props) {
             <CardContent className="flex flex-col w-full gap-1">
                 {data.map((item: WeatherInfo) => {
                     return (
-                        <div className="w-full flex items-center gap-7 bg-neutral-50 py-0 px-3 rounded-md" key={item.day}>
+                        <div className="w-full flex items-center gap-7 bg-neutral-50 py-0 px-3 rounded-md" key={item.date}>
                             <div className="w-fit h-10 flex items-center gap-2">
-                                <img src={`/assets/icons/${item.iconCode}.svg`} alt="" className="h-7 w-7" />
+                                {item.isDay ? <img src={`/assets/icons/${item.iconCode}d.svg`} alt="" className="h-7 w-7" /> : <img src={`/assets/icons/${item.iconCode}n.svg`} alt="" className="h-7 w-7" />}
                                 <div className="flex items-center gap-1 w-20">
                                     <div className="w-full h-full flex items-start gap-[2px]">
                                         <span className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight text-red-600">{item.maxTemp}</span>

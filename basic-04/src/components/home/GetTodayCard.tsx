@@ -34,7 +34,11 @@ function GetTodayCard({ data }: Props) {
                         </div>
                     </div>
                     <div className="w-[45%] flex items-center justify-center">
-                        <img src={`/assets/icons/${data.current.condition.code}.svg`} alt="" className="h-32 w-32" />
+                        {data.current.condition.icon.includes("day") ? (
+                            <img src={`/assets/icons/${data.current.condition.code}d.svg`} alt="" className="h-32 w-32" />
+                        ) : (
+                            <img src={`/assets/icons/${data.current.condition.code}n.svg`} alt="" className="h-32 w-32" />
+                        )}
                     </div>
                 </div>
             </CardContent>

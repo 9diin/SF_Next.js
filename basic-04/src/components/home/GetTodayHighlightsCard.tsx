@@ -41,10 +41,12 @@ function GetTodayHighlightsCard({ currentData, tideData }: Props) {
                         <CardContent className="w-full flex items-center justify-between">
                             <img src="/assets/icons/Waves.png" alt="" className="h-14" />
                             <div className="w-fit grid grid-cols-4 gap-3">
-                                {tideData.day.tides[0].tide.map((item: Tide) => {
+                                {tideData.day.tides[0].tide.map((item: Tide, index: number) => {
                                     return (
                                         <div className="flex flex-col items-center" key={item.tide_time}>
-                                            <p className="text-sm text-muted-foreground">1회 - {item.tide_type === "HIGH" ? "만조" : "간조"}</p>
+                                            <p className="text-sm text-muted-foreground">
+                                                {index + 1}회 - {item.tide_type === "HIGH" ? "만조" : "간조"}
+                                            </p>
                                             <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
                                                 {item.tide_time.split(" ")[1]}
                                                 <span className="ml-[1px]">{useFormattedUnit(item.tide_time)}</span>
@@ -64,14 +66,14 @@ function GetTodayHighlightsCard({ currentData, tideData }: Props) {
                         </CardHeader>
                         <CardContent className="grid grid-cols-2 items-center">
                             <div className="w-full flex items-center gap-2">
-                                <img src="/assets/icons/Sunny.svg" alt="" className="h-14" />
+                                <img src="/assets/icons/1000d.svg" alt="" className="h-14" />
                                 <div className="flex flex-col">
                                     <p className="text-sm text-muted-foreground">Sunrise</p>
                                     <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">{tideData.astro.sunrise}</p>
                                 </div>
                             </div>
                             <div className="w-full flex items-center gap-2">
-                                <img src="/assets/icons/Clear.svg" alt="" className="h-14" />
+                                <img src="/assets/icons/1000n.svg" alt="" className="h-14" />
                                 <div className="flex flex-col">
                                     <p className="text-sm text-muted-foreground">Sunset</p>
                                     <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">{tideData.astro.sunset}</p>

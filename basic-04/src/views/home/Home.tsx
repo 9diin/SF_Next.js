@@ -146,7 +146,7 @@ function HomePage() {
 
             if (res.status === 200 && res.data) {
                 const newData = res.data.forecast.forecastday.map((item: ForecastDay) => {
-                    return { maxTemp: Math.round(item.day.maxtemp_c), minTemp: Math.round(item.day.mintemp_c), date: item.date_epoch, iconCode: item.day.condition.code };
+                    return { maxTemp: Math.round(item.day.maxtemp_c), minTemp: Math.round(item.day.mintemp_c), date: item.date_epoch, iconCode: item.day.condition.code, isDay: item.day.condition.icon.includes("day") };
                 });
                 setWeeklyWeatherSummary(newData);
             }
