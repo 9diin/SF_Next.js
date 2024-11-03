@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { ForecastTideDay, Tide, Weather } from "@/types";
 
@@ -7,21 +6,23 @@ interface Props {
     tideData: ForecastTideDay;
 }
 
-function useFormattedUnit(time: string) {
-    return useMemo(() => {
-        const [date, hourString] = time.split(" ");
-        const [hour, minute] = hourString.split(":").map(Number);
-        const formattedUnit = hour < 12 ? "am" : "pm";
-
-        return formattedUnit;
-    }, [time]);
-}
-
 function GetTodayHighlightsCard({ currentData, tideData }: Props) {
     /** 추후에 스켈레톤 ui로 변경 */
     if (!currentData || !tideData) {
         return <div>데이터를 불러오는 중입니다...</div>;
     }
+
+    const tideTimesWithUnits = tideData.day.tides[0].tide.map((item: Tide) => {
+        const [_, hourString] = item.tide_time.split(" ");
+        const [hour] = hourString.split(":").map(Number);
+        const formattedUnit = hour < 12 ? "am" : "pm"; // 여기서 조건을 처리
+
+        return {
+            displayTime: item.tide_time.split(" ")[1],
+            unit: formattedUnit,
+            type: item.tide_type,
+        };
+    });
 
     return (
         <Card className="flex-1">
@@ -41,19 +42,17 @@ function GetTodayHighlightsCard({ currentData, tideData }: Props) {
                         <CardContent className="w-full flex items-center justify-between">
                             <img src="/assets/icons/Waves.png" alt="" className="h-14" />
                             <div className="w-fit grid grid-cols-4 gap-3">
-                                {tideData.day.tides[0].tide.map((item: Tide, index: number) => {
-                                    return (
-                                        <div className="flex flex-col items-center" key={item.tide_time}>
-                                            <p className="text-sm text-muted-foreground">
-                                                {index + 1}회 - {item.tide_type === "HIGH" ? "만조" : "간조"}
-                                            </p>
-                                            <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
-                                                {item.tide_time.split(" ")[1]}
-                                                <span className="ml-[1px]">{useFormattedUnit(item.tide_time)}</span>
-                                            </p>
-                                        </div>
-                                    );
-                                })}
+                                {tideTimesWithUnits.map((tide, index) => (
+                                    <div className="flex flex-col items-center" key={index}>
+                                        <p className="text-sm text-muted-foreground">
+                                            {index + 1}회 - {tide.type === "HIGH" ? "만조" : "간조"}
+                                        </p>
+                                        <p className="poppins-medium scroll-m-20 text-lg font-semibold tracking-tight">
+                                            {tide.displayTime}
+                                            <span className="ml-[1px]">{tide.unit}</span>
+                                        </p>
+                                    </div>
+                                ))}
                             </div>
                         </CardContent>
                     </Card>
