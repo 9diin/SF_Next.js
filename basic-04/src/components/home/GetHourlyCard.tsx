@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components";
 import { ForecastDay, hourlyData } from "@/types";
 
 function useFormattedTime(time: string) {

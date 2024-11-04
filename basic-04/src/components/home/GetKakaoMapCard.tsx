@@ -3,7 +3,7 @@ import { cityNameAtom } from "@/stores";
 
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import useKakaoLoader from "@/hooks/useKakaoLoader";
-import { Card } from "@/components/ui/card";
+import { Card } from "@/components";
 
 function GetKakaoMapCard() {
     useKakaoLoader();

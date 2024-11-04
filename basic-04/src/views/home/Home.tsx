@@ -3,8 +3,7 @@ import axios from "axios";
 import { useAtom } from "jotai";
 import { cityNameAtom } from "@/stores";
 /** 컴포넌트 */
-import { CommonHeader } from "@/components/common";
-import { GetTodayCard, GetDaysCard, GetTodayHighlightsCard, GetKakaoMapCard, GetHourlyCard } from "@/components/home";
+import { CommonHeader, GetTodayCard, GetDaysCard, GetTodayHighlightsCard, GetKakaoMapCard, GetHourlyCard } from "@/components";
 import { ForecastDay, ForecastTideDay, Weather } from "@/types";
 
 const defaultWeatherData: Weather = {

@@ -1,7 +1,6 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Weather } from "@/types";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, Separator } from "@/components";
 import { CalendarDays, MapPinned } from "lucide-react";
+import { Weather } from "@/types";
 
 interface Props {
     data: Weather;
@@ -18,11 +17,7 @@ function GetTodayCard({ data }: Props) {
                 <div className="w-full flex items-center gap-6">
                     <div className="w-full h-full flex flex-col">
                         <div className="flex items-center gap-4">
-                            {data.current.condition.icon.includes("day") ? (
-                                <img src={`/assets/icons/${data.current.condition.code}d.svg`} alt="" className="h-16 w-16" />
-                            ) : (
-                                <img src={`/assets/icons/${data.current.condition.code}n.svg`} alt="" className="h-16 w-16" />
-                            )}
+                            {data.current.condition.icon.includes("day") ? <img src={`/assets/icons/${data.current.condition.code}d.svg`} alt="" className="h-16 w-16" /> : <img src={`/assets/icons/${data.current.condition.code}n.svg`} alt="" className="h-16 w-16" />}
                             <div className="w-full flex items-start gap-1">
                                 <span className="poppins-bold scroll-m-20 text-6xl font-extrabold tracking-tight">{Math.round(data.current.temp_c)}</span>
                                 <span className="text-4xl font-extrabold">&#8451;</span>
