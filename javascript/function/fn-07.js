@@ -13,7 +13,7 @@ const user = {
         return `${this.firstName} ${this.lastName}`;
     },
 };
-console.log(user.getFullName(user));
+console.log(user.getFullName());
 
 const user2 = {
     firstName: "9Diin",
@@ -24,7 +24,7 @@ const user2 = {
         return `${this.firstName} ${this.lastName}`;
     },
 };
-console.log(user2.getFullName(user));
+console.log(user2.getFullName());
 
 function user3() {
     this.firstName = "길동";
