@@ -15,7 +15,7 @@ a(() => {
 /** ---------------------------------------------------------------------------------------------------- */
 
 const c = () => {
-    /** callback을 대신해서 매개변수를 resolve를 callback이 실행되는 부분에서 대신해서 실행시켜준다. */
+    /** callback을 대신해서 매개변수 resolve를 callback이 실행되는 부분에서 대신해서 실행시켜준다. */
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             console.log(3);
