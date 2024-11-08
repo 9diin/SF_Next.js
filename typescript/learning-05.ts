@@ -83,3 +83,39 @@ announceSongBy("Greensleeves", "Sia"); // OK
  */
 
 function announceSinger(singer?: string, song: string) {} // Error: 필수 매개 변수는 선택적 매개 변수 뒤에 올 수 없습니다.
+
+/** 5.1.3 기본 매개변수
+ * 자바스크립트에서 선택적 매개변수를 선언할 때 =와 값이 포함된 기본 값을 제공할 수 있습니다.
+ * 즉, 선택적 매개변수에는 기본적으로 값이 제공되기 때문에 해당 타입스크립트 타입에는 암묵적으로 함수 내부에 | undefined 유니언 타입이 추가 됩니다.
+ * 타입스크립트는 함수의 매개변수에 대해 인수를 누락하거나 undefined 인수를 사용해서 호출하는 것을 여전히 허용합니다.
+ *
+ * 타입스크립트의 타입 추론은 초기 변숫값과 마찬가지로 기본 함수 매개변수에 대해서도 유사하게 작동합니다.
+ * 매개변수에 기본값이 있고 타입 애너테이션이 없는 경우, 타입스크립트는 해당 기본값을 기반으로 매개변수 타입을 유추합니다.
+ *
+ * 다음 rateSong 함수에서 rating은 number 타입으로 유추되지만, 함수를 호출하는 코드에서는 선택적 number | undefined가 됩니다. */
+
+function rateSong(song: string, rating = 0) {
+    console.log(`${song} gets ${rating}/5 stars!`);
+}
+rateSong("Photograph"); // OK
+rateSong("Set Fire to the Rain", 5); // OK
+rateSong("Set Fire to the Rain", undefined); // OK
+rateSong("At Last!", "100"); // 'string' 형식의 인수는 'number' 형식의 매개 변수에 할당될 수 없습니다.
+
+/** 5.1.4 나머지 매개변수
+ * 자바스크립트의 일부 함수는 임의의 수의 인수로 호출할 수 있도록 만들어집니다.
+ * ... 스프레드 연산자는 함수 선언의 마지막 매개변수에 위치하고, 해당 매개변수에서 시작해 함수에 전달된 '나머지(Rest)'인수가 모두 단일 배열에 저장되어야 함을 나타냅니다.
+ *
+ * 타입스크립트는 이러한 나머지 매개변수의 타입을 일반 매개변수와 유사하게 선언할 수 있습니다.
+ * 단, 인수 배열을 나타내기 위해 끝에 [] 구문이 추가된다는 점만 다릅니다.
+ * 중요한 점은 rest parameter는 인자가 없을 경우에도 빈 배열([])을 기본값으로 받는다는 점입니다
+ */
+
+function singAllTheSongs(singer: string, ...songs: string[]) {
+    for (const song of songs) {
+        console.log(`${song}, by ${singer}`);
+    }
+}
+singAllTheSongs("Alicia Keys"); // OK
+singAllTheSongs("Lady Gaga", "Bad Romance", "Just Dance", "Poker Face"); // OK
+singAllTheSongs("Ella Fitzgerald", 2000); // 'number' 형식의 인수는 'string' 형식의 매개 변수에 할당될 수 없습니다.
