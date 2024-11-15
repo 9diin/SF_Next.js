@@ -1,0 +1,26 @@
+@use "./colors";
+@use "./fonts";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: "Noto Sans KR", sans-serif;
+    font-style: normal;
+}
+
+.page {
+    width: 100vw;
+    height: 100vh;
+
+    &__container {
+        width: 100%;
+        max-width: 1440px;
+
+        display: flex;
+        flex-direction: column;
+
+        margin: 0 auto;
+    }
+}
