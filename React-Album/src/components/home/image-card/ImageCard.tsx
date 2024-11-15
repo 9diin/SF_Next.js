@@ -69,7 +69,6 @@ function ImageCard() {
                         </div>
                     </DialogContent>
                 </Dialog>
-
                 {/* Skeleton UI: 이미지 데이터가 렌더링 되기 전 */}
                 <Skeleton className="w-[250px] h-[150px] rounded-xl" />
                 <small className="w-full gap-1 text-s font-medium line-clamp-2">
