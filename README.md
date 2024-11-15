@@ -1,5 +1,5 @@
 ### 웅진싱크빅X유데미X스나이퍼팩토리 NEXT.js 4기 사전직무교육
 
 -   basic-01: 자바스크립트 스타터 킷 교육자료
--   basic-02: 타입스크립트 스타터 킷 교육자료 (basic-01 과정을 타입스크립트로 마이그레이션)
--   basic-03: 리액트 + 타입스크립트 프로젝트 예제 (오픈 API를 활용)
+-   React-Dashboard: React + TypeScript + Shadcn UI+ 오픈 웨더 API를 활용한 날씨 대시보드 만들기
+-   React-Album: React + TypeScript + Shadcn UI+ 오픈 이미지 API를 활용한 이미지 검색 사이트 만들기
