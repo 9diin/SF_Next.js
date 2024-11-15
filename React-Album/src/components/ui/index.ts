@@ -25,4 +25,5 @@ export {
     PaginationPrevious,
 } from "./pagination";
 export { Separator } from "./separator";
+export { SearchBar } from "./search-bar";
 export { Skeleton } from "./skeleton";
