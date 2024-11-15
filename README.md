@@ -2,4 +2,4 @@
 
 -   basic-01: 자바스크립트 스타터 킷 교육자료
 -   React-Dashboard: React + TypeScript + Shadcn UI+ 오픈 웨더 API를 활용한 날씨 대시보드 만들기
--   React-Album: React + TypeScript + Shadcn UI+ 오픈 이미지 API를 활용한 이미지 검색 사이트 만들기
+-   React-Album: React + TypeScript + Shadcn UI+ 오픈 이미지 API를 활용한 이미지 검색 사이트 만들기
