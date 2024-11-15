@@ -1,4 +1,5 @@
-import { Header, Nav } from "@/components/common";
+import { Header, Nav, PaginationFooter } from "@/components/common";
+import { ImageCard } from "@/components/home";
 import { SearchBar } from "@/components/ui";
 
 function HomePage() {
@@ -25,6 +26,15 @@ function HomePage() {
                         <SearchBar placeholder="원하는 이미지를 검색하세요." />
                     </div>
                 </div>
+                <div className="page__container__contents">
+                    <ImageCard />
+                    <ImageCard />
+                    <ImageCard />
+                    <ImageCard />
+                    <ImageCard />
+                    <ImageCard />
+                </div>
+                <PaginationFooter />
             </div>
         </div>
     );

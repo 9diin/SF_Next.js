@@ -53,5 +53,20 @@
                 justify-content: center;
             }
         }
+        &__contents {
+            width: 100%;
+
+            flex: 1;
+            flex-wrap: wrap; // 자식 요소가 여러 줄로 배치될 수 있도록 설정
+            align-content: flex-start; // 자식 요소들이 위에서부터 정렬되도록 설정
+
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+
+            padding: 24px;
+            gap: 40px 24px; // 각 요소 간의 간격 설정
+
+            overflow-y: scroll;
+        }
     }
 }
