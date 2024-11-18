@@ -8,7 +8,7 @@ function Header() {
         <header className={styles.header}>
             <div className={styles[`header__logo-box`]}>
                 <Link to={"/bookmark"}>
-                    <img src="src/assets/logo.svg" alt="" className={styles[`header__logo-box__logo`]} />
+                    <img src="/assets/logo.svg" alt="" className={styles[`header__logo-box__logo`]} />
                 </Link>
             </div>
             <div className={styles[`header__user-box`]}>

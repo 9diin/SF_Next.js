@@ -12,6 +12,8 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<HomePage />}></Route>
+                    {/* 동적 라우팅 */}
+                    <Route path="/search/:id" element={<HomePage />}></Route>
                     <Route path="/bookmark" element={<BookmarkPage />}></Route>
                 </Routes>
                 <Toaster />

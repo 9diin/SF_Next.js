@@ -46,7 +46,7 @@ function HomePage() {
                 <Header />
                 <Nav />
                 <div className="page__container__wallpaper">
-                    <img src="src/assets/images/wallpaper.png" alt="" className="bg-image" />
+                    <img src="/assets/images/wallpaper.png" alt="" className="bg-image" />
                     <div className="search-box">
                         <h1 className="scroll-m-20 text-4xl text-white font-extrabold tracking-tight">
                             프로젝트 02: 오픈 API를 활용한 이미지 검색 사이트 만들기
