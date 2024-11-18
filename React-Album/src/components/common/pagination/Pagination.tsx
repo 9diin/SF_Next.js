@@ -70,19 +70,21 @@ function PaginationFooter({ totalPages, currentPage, handlePage }: Props) {
     console.log("currentPage:", currentPage);
     console.log("visiblePages:", visiblePages);
 
-    const onPrev = () => {
-        if (currentPage > 0) handlePage(currentPage - 1);
-        else return;
+    const onPrev = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault(); // disabled일 때 클릭 방지
+        if (currentPage > 1) handlePage(currentPage - 1);
     };
-    const onNext = () => {
-        if (currentPage < totalPages - 1) handlePage(currentPage + 1);
+
+    const onNext = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault(); // disabled일 때 클릭 방지
+        if (currentPage < totalPages) handlePage(currentPage + 1);
     };
 
     return (
         <Pagination>
             <PaginationContent>
                 <PaginationItem>
-                    <PaginationPrevious href="#" onClick={onPrev} disabled={currentPage === 1} />
+                    <PaginationPrevious href="#" onClick={onPrev} disabled={currentPage <= 1} />
                 </PaginationItem>
 
                 {visiblePages.map((page, index) => {
@@ -106,7 +108,7 @@ function PaginationFooter({ totalPages, currentPage, handlePage }: Props) {
                 })}
 
                 <PaginationItem>
-                    <PaginationNext href="#" onClick={onNext} disabled={currentPage === totalPages - 1} />
+                    <PaginationNext href="#" onClick={onNext} disabled={currentPage === totalPages} />
                 </PaginationItem>
             </PaginationContent>
         </Pagination>
