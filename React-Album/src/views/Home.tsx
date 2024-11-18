@@ -1,31 +1,25 @@
-import axios from "axios";
-import { useToast } from "@/hooks/use-toast";
-
+import { useState, useEffect, useCallback } from "react";
+import { useAtom } from "jotai";
+import { searchValueAtom, pageAtom, fetchApi } from "@/store";
+/** 컴포넌트 */
 import { Header, Nav, PaginationFooter } from "@/components/common";
 import { ImageCard } from "@/components/home";
 import { SearchBar } from "@/components/ui";
-import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { ImageDataType } from "@/types";
 
 function HomePage() {
-    const [images, setImages] = useState([]);
     const { toast } = useToast();
+    const [searchValue] = useAtom(searchValueAtom);
+    const [page] = useAtom(pageAtom);
+    const [images, setImages] = useState([]); // 사진 데이터를 저장할 상태
 
-    const fetchApi = async () => {
-        const API_KEY = "xdPpSL_raqECA-2yXGgl6syIXf22TEyB3ooFpYeghQA";
-        const BASE_URL = "https://api.unsplash.com/search/photos";
-
-        const page = 1;
-        const searchValue = "korea";
-        const per_page = 30;
-
+    const fetchImages = useCallback(async () => {
         try {
-            const res = await axios.get(
-                `${BASE_URL}/?query=${searchValue}&page=${page}&per_page=${per_page}&client_id=${API_KEY}`
-            );
+            const res = await fetchApi(searchValue, page);
 
             if (res.status === 200 && res.data) {
                 setImages(res.data.results);
-                /** 추후에 비동기처리 해줄지 말지 체크! */
                 toast({
                     title: "Unsplash API 호출 성공!!",
                 });
@@ -36,16 +30,15 @@ function HomePage() {
                     description: "API 호출을 위한 필수 파라미터 값을 체크해보세요!",
                 });
             }
-
             console.log(res);
         } catch (error) {
             console.error(error);
         }
-    };
+    }, [searchValue, page, toast]); // 필요한 의존성들만 포함
 
     useEffect(() => {
-        fetchApi();
-    }, []);
+        fetchImages();
+    }, [fetchImages]); // 이제 fetchImages가 변경될 때만 실행
 
     return (
         <div className="page">
@@ -71,8 +64,8 @@ function HomePage() {
                     </div>
                 </div>
                 <div className="page__container__contents">
-                    {images.map((image) => {
-                        return <ImageCard data={image} />;
+                    {images.map((image: ImageDataType) => {
+                        return <ImageCard data={image} key={image.id} />;
                     })}
                 </div>
                 <PaginationFooter />
