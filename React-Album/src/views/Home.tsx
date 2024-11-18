@@ -10,9 +10,24 @@ import { ImageDataType } from "@/types";
 
 function HomePage() {
     const { toast } = useToast();
-    const [searchValue] = useAtom(searchValueAtom);
-    const [page] = useAtom(pageAtom);
+    const [searchValue, setSearchValue] = useAtom(searchValueAtom);
+    const [page, setPage] = useAtom(pageAtom);
+    const [inputValue, setInputValue] = useState<string>("");
     const [images, setImages] = useState([]); // 사진 데이터를 저장할 상태
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(event.target.value);
+    };
+    // 엔터 키가 눌렸을 때의 동작
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            // 입력 필드 초기화
+            setInputValue("");
+            setSearchValue(inputValue);
+        }
+    };
+
+    /** ---------------------------------------------------------------------------------------------------- */
 
     const fetchImages = useCallback(async () => {
         try {
@@ -60,7 +75,12 @@ function HomePage() {
                             </h4>
                         </div>
                         {/* 검색창 컴포넌트 */}
-                        <SearchBar placeholder="원하는 이미지를 검색하세요." />
+                        <SearchBar
+                            placeholder="원하는 이미지를 검색하세요."
+                            onInput={handleChange}
+                            value={inputValue}
+                            onKeyDown={handleKeyDown} // 엔터 키 이벤트 핸들러
+                        />
                     </div>
                 </div>
                 <div className="page__container__contents">
@@ -68,7 +88,9 @@ function HomePage() {
                         return <ImageCard data={image} key={image.id} />;
                     })}
                 </div>
-                <PaginationFooter />
+                <footer className="page__container__footer">
+                    <PaginationFooter />
+                </footer>
             </div>
         </div>
     );

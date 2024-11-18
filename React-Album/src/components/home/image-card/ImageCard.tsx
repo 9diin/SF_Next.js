@@ -9,9 +9,9 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-    Skeleton,
 } from "@/components/ui";
 import { AlignLeft, ClipboardPenLine, FolderOpen, Heart, Pin } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { ImageDataType } from "@/types";
 
 interface Props {
@@ -19,6 +19,46 @@ interface Props {
 }
 
 function ImageCard({ data }: Props) {
+    const { toast } = useToast();
+    const addBookmark = (imageData: ImageDataType) => {
+        console.log(imageData);
+
+        const getLocalStorage = localStorage.getItem("bookmark");
+        let bookmarks: ImageDataType[] = [];
+
+        if (getLocalStorage) {
+            try {
+                bookmarks = JSON.parse(getLocalStorage);
+            } catch (error) {
+                console.error("Error parsing localStorage:", error);
+                bookmarks = [];
+            }
+        }
+
+        if (bookmarks.length === 0) {
+            localStorage.setItem("bookmark", JSON.stringify([imageData]));
+            toast({
+                title: "로컬스토리지에 올바르게 저장되었습니다.",
+            });
+        } else {
+            const imageExists = bookmarks.findIndex((item: ImageDataType) => item.id === imageData.id) > -1;
+
+            if (imageExists) {
+                toast({
+                    variant: "destructive",
+                    title: "로컬스토리지에 해당 데이터가 이미 저장되어 있습니다.",
+                });
+            } else {
+                bookmarks.push(imageData);
+                localStorage.setItem("bookmark", JSON.stringify(bookmarks));
+
+                toast({
+                    title: "로컬스토리지에 올바르게 저장되었습니다.",
+                });
+            }
+        }
+    };
+
     return (
         <div className="flex flex-col justify-between space-y-3 w-64 h-64 cursor-pointer">
             <div className="relative flex flex-col gap-3">
@@ -41,7 +81,7 @@ function ImageCard({ data }: Props) {
                             {/* <Skeleton className="h-80 w-full rounded-xl" /> */}
                             {/* 이미지 데이터가 렌더링 된 후 */}
                             <img src={data.urls.full} alt="" className="h-80 w-full rounded-xl object-cover" />
-                            <div className="flex items-center justify-start w-full">
+                            <div className="flex items-center justify-between w-full">
                                 <div className="flex items-center gap-2">
                                     <Avatar>
                                         <AvatarImage src={data.user.profile_image.small} alt="@shadcn" />
@@ -49,6 +89,9 @@ function ImageCard({ data }: Props) {
                                     </Avatar>
                                     <small className="text-sm font-medium leading-none">{data.user.username}</small>
                                 </div>
+                                <Button variant={"secondary"} onClick={() => addBookmark(data)}>
+                                    북마크 추가
+                                </Button>
                             </div>
                             <div className="flex flex-col w-full gap-2">
                                 <div className="flex items-center">

@@ -15,7 +15,7 @@ interface Nav {
 }
 
 function Nav() {
-    const location = useLocation();
+    const { pathname } = useLocation();
     const [searchValue, setSearchValue] = useAtom(searchValueAtom);
     const [navMenu, setNavMenu] = useState<Nav[]>(navJson);
 
@@ -23,13 +23,13 @@ function Nav() {
         navMenu.forEach((nav: Nav) => {
             nav.isActive = false;
 
-            if (nav.path === location.pathname || location.pathname.includes(nav.path)) {
+            if (nav.path === pathname || pathname.includes(nav.path)) {
                 nav.isActive = true;
                 setSearchValue(nav.searchValue);
             }
         });
         setNavMenu([...navMenu]);
-    }, [location.pathname]);
+    }, [pathname]);
 
     /** 네비게이션 UI */
     /** useState로 선언한 반응성을 가진 데이터를 기반으로 UI를 반복 호출해보도록 한다. */
@@ -41,7 +41,13 @@ function Nav() {
              * 2-1. Link 클릭을 했을 때, path가 바뀐다. => path 경로에 대한 데이터를 활용할 수 있을 것 같다.
              * 2-2. Link를 Button으로 바꾼다. 클릭 이벤트를 할당하고 => 이벤트 내에서 setAtom과 관련된 함수를 호출한다.
              */
-            <Link to={nav.path} key={nav.index}>
+            <Link
+                to={nav.path}
+                key={nav.index}
+                className={
+                    nav.isActive ? `${styles.nav__menu} ${styles.active}` : `${styles.nav__menu} ${styles.inactive}`
+                }
+            >
                 <small className="text-sm font-normal leading-10">{nav.label}</small>
             </Link>
         );
