@@ -1,3 +1,5 @@
+"use client";
+
 import { BasicDatePicker } from "./date-picker";
 
 interface Props {

@@ -1,17 +1,15 @@
 "use client";
 
-import Image from "next/image";
+// import { useState, useEffect } from "react";
+// import Image from "next/image";
+
+// import { supabase } from "@/lib/supabase";
 import { CardBoard } from "@/features";
 import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
 import { ChevronLeft } from "lucide-react";
 import styles from "./page.module.scss";
 
-import { Card, Checkbox, Separator } from "@/components/ui";
-import { ChevronUp } from "lucide-react";
-
 function BoardPage() {
-    // const createBoard = () => {};
-
     return (
         <div className="page">
             <aside className="page__aside">
