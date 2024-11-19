@@ -1,4 +1,12 @@
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -51,7 +59,7 @@ function PaginationFooter({ totalPages, currentPage, handlePage }: Props) {
         const uniquePageNumbers = Array.from(new Set(pageNumbers));
 
         // Ellipsis를 추가할 구간을 넣기 위한 작업
-        let finalPages: (number | string)[] = [];
+        const finalPages: (number | string)[] = [];
         uniquePageNumbers.forEach((page, index, arr) => {
             finalPages.push(page);
             // Ellipsis 처리: 페이지 번호가 연속되지 않으면 '...' 추가
@@ -71,13 +79,13 @@ function PaginationFooter({ totalPages, currentPage, handlePage }: Props) {
     console.log("visiblePages:", visiblePages);
 
     const onPrev = (event: React.MouseEvent<HTMLAnchorElement>) => {
-        event.preventDefault(); // disabled일 때 클릭 방지
         if (currentPage > 1) handlePage(currentPage - 1);
+        else event.preventDefault(); // disabled일 때 클릭 방지
     };
 
     const onNext = (event: React.MouseEvent<HTMLAnchorElement>) => {
-        event.preventDefault(); // disabled일 때 클릭 방지
         if (currentPage < totalPages) handlePage(currentPage + 1);
+        else event.preventDefault(); // disabled일 때 클릭 방지
     };
 
     return (
@@ -100,7 +108,11 @@ function PaginationFooter({ totalPages, currentPage, handlePage }: Props) {
                     // 페이지 번호가 숫자일 경우 PaginationLink 렌더링
                     return (
                         <PaginationItem key={`page-${page}`}>
-                            <PaginationLink href="#" isActive={page === currentPage} onClick={() => handlePage(Number(page))}>
+                            <PaginationLink
+                                href="#"
+                                isActive={page === currentPage}
+                                onClick={() => handlePage(Number(page))}
+                            >
                                 {page}
                             </PaginationLink>
                         </PaginationItem>

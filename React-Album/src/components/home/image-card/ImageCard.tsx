@@ -10,7 +10,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui";
-import { AlignLeft, ClipboardPenLine, FolderOpen, Heart, Pin } from "lucide-react";
+import { AlignLeft, ClipboardPenLine, FolderOpen, Heart, Pin, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ImageDataType } from "@/types";
 
@@ -20,6 +20,9 @@ interface Props {
 
 function ImageCard({ data }: Props) {
     const { toast } = useToast();
+    const bookmark: ImageDataType[] = JSON.parse(localStorage.getItem("bookmark") || `[]`);
+    const isIncluded = bookmark.findIndex((item: ImageDataType) => item.id === data.id) > -1;
+
     const addBookmark = (imageData: ImageDataType) => {
         console.log(imageData);
 
@@ -59,9 +62,26 @@ function ImageCard({ data }: Props) {
         }
     };
 
+    const onClickDeleteBookmark = () => {
+        const deletedBookmark = bookmark.filter((item) => item.id !== data.id);
+        localStorage.setItem("bookmark", JSON.stringify(deletedBookmark));
+        toast({
+            title: "북마크가 삭제되었습니다.",
+        });
+    };
+
     return (
         <div className="flex flex-col justify-between space-y-3 w-64 h-64 cursor-pointer">
             <div className="relative flex flex-col gap-3">
+                {isIncluded && (
+                    <Button
+                        size={"icon"}
+                        className=" absolute bg-neutral-500 bg-opacity-50 top-2 right-16 z-10"
+                        onClick={onClickDeleteBookmark}
+                    >
+                        <Trash2 className="h-5" />
+                    </Button>
+                )}
                 <Dialog>
                     <DialogTrigger asChild>
                         <Button
