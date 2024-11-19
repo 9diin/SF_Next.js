@@ -1,21 +1,14 @@
-"use client";
+import { Button, Input, SearchBar, Progress } from "@/components/ui";
+import styles from "./page.module.scss";
 
-import { useRouter } from "next/navigation";
-import { Button, SearchBar } from "@/components/ui";
-
-function InitPage() {
-    const router = useRouter();
-
+function BoardPage() {
     return (
         <div className="page">
             <aside className="page__aside">
                 {/* 검색창 UI */}
                 <SearchBar placeholder="검색어를 입력하세요." />
                 {/* Add New Page 버튼 UI */}
-                <Button
-                    className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]"
-                    onClick={() => router.push("/board/1")}
-                >
+                <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]">
                     Add New Page
                 </Button>
                 {/* TODO 목록 UI 하나 */}
@@ -34,22 +27,22 @@ function InitPage() {
                 </div>
             </aside>
             <main className="page__main">
-                <div className="flex flex-col items-center justify-center gap-5 mb-6">
-                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">How to start:</h3>
-                    <div className="flex flex-col items-center gap-3">
-                        <small className="text-sm font-normal leading-none">1. Create a page</small>
-                        <small className="text-sm font-normal leading-none">2. Add boards to page</small>
+                <div className={styles.header}>
+                    <div className={styles.heaer__top}>
+                        {/* 제목 입력 Input 섹션 */}
+                        <Input placeholder="Enter Title Here!" />
+                        {/* 진행상황 척도 그래프 섹션 */}
+                        <div className="flex items-center justify-start gap-4">
+                            <small className="text-sm font-medium leading-none text-[#6D6D6D]">1/10 Completed</small>
+                            <Progress className="w-60 h-[10px]" />
+                        </div>
                     </div>
+                    <div>{/* 캘린더 + Add New Board 버튼 섹션 */}</div>
                 </div>
-                <Button
-                    className="text-[#E79057] bg-transparent border border-[#E79057] hover:bg-[#FFF9F5] w-[180px]"
-                    onClick={() => router.push("/board/1")}
-                >
-                    Add New Page
-                </Button>
+                <div className={styles.body}></div>
             </main>
         </div>
     );
 }
 
-export default InitPage;
+export default BoardPage;
