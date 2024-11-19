@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.page {
+    width: 100vw;
+    height: 100vh;
+
+    max-width: 1140px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+
+    background-color: aqua;
+
+    &__aside {
+        width: 282px;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        padding: 20px 24px;
+        gap: 12px;
+
+        background-color: #ffffff;
+        border-left: 1px solid #f4f4f5;
+    }
+    &__main {
+        width: calc(100% - 282px);
+        height: 100%;
+
+        background-color: #f9f9f9;
+        border-right: 1px solid #f4f4f5;
+    }
+}
