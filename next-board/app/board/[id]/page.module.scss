@@ -1,12 +1,37 @@
 .header {
     width: 100%;
 
+    display: flex;
+    flex-direction: column;
+
     padding: 84px 28px 16px 28px;
+    gap: 16px;
 
-    background-color: black;
+    background-color: #ffffff;
 
-    &__start {
+    &__top {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 16px;
+
+        &__input {
+            font-size: 2rem;
+            font-weight: 700;
+            outline: none;
+
+            &::placeholder {
+                color: #c4c4c4;
+            }
+        }
     }
-    &__end {
+    &__bottom {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 }
