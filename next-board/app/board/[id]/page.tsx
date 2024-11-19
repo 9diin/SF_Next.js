@@ -1,8 +1,13 @@
-import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
+"use client";
+
+import Image from "next/image";
+import { Button, Card, SearchBar, Progress, LabelDatePicker, Separator, Checkbox } from "@/components/ui";
+import { ChevronLeft, ChevronUp } from "lucide-react";
 import styles from "./page.module.scss";
-import { ChevronLeft } from "lucide-react";
 
 function BoardPage() {
+    // const createBoard = () => {};
+
     return (
         <div className="page">
             <aside className="page__aside">
@@ -41,7 +46,7 @@ function BoardPage() {
                         {/* 진행상황 척도 그래프 섹션 */}
                         <div className="flex items-center justify-start gap-4">
                             <small className="text-sm font-medium leading-none text-[#6D6D6D]">1/10 Completed</small>
-                            <Progress className="w-60 h-[10px]" />
+                            <Progress className="w-60 h-[10px]" value={33} />
                         </div>
                     </div>
                     {/* 캘린더 + Add New Board 버튼 섹션 */}
@@ -55,7 +60,63 @@ function BoardPage() {
                         </Button>
                     </div>
                 </div>
-                <div className={styles.body}></div>
+                <div className={styles.body}>
+                    {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 없을 경우 */}
+                    {/* <div className={styles.body__noData}>
+                        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">There is no board yet.</h3>
+                        <small className="text-sm font-medium leading-none text-[#6D6D6D] mt-3 mb-7">
+                            Click the button and start flashing!
+                        </small>
+                        <button onClick={createBoard}>
+                            <Image src="/assets/images/button.svg" width={74} height={74} alt="rounded-button" />
+                        </button>
+                    </div> */}
+                    {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 있을 경우 */}
+                    <div className={styles.body__isData}>
+                        <Card className="w-full flex flex-col items-center p-5">
+                            {/* 게시물 카드 제목 영역*/}
+                            <div className="w-full flex items-center justify-between mb-4">
+                                <div className="flex items-center justify-start gap-2">
+                                    <Checkbox className="h-5 w-5" />
+                                    <input
+                                        type="text"
+                                        placeholder="제목을 입력하세요."
+                                        className="text-xl outline-none"
+                                        disabled={true}
+                                    />
+                                </div>
+                                <Button variant={"ghost"} size={"icon"}>
+                                    <ChevronUp className="text-[#6d6d6d]" />
+                                </Button>
+                            </div>
+                            {/* 캘린더 및 버튼 박스 영역 */}
+                            <div className="w-full flex items-center justify-between">
+                                {/* 캘린더 박스 */}
+                                <div className="flex items-center gap-5">
+                                    <LabelDatePicker label={"From"} />
+                                    <LabelDatePicker label={"To"} />
+                                </div>
+                                {/* 버튼 박스 */}
+                                <div className="flex items-center">
+                                    <Button variant={"ghost"} className="font-normal text-[#6D6D6D]">
+                                        Duplicate
+                                    </Button>
+                                    <Button
+                                        variant={"ghost"}
+                                        className="font-normal text-rose-600 hover:text-rose-600 hover:bg-red-50"
+                                    >
+                                        Delete
+                                    </Button>
+                                </div>
+                            </div>
+                            <Separator className="my-3" />
+                            {/* Add Contents 버튼 영역 */}
+                            <Button variant={"ghost"} className="font-normal text-[#6D6D6D]">
+                                Add Contents
+                            </Button>
+                        </Card>
+                    </div>
+                </div>
             </main>
         </div>
     );
