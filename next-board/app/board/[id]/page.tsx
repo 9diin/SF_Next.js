@@ -1,5 +1,6 @@
 import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
 import styles from "./page.module.scss";
+import { ChevronLeft } from "lucide-react";
 
 function BoardPage() {
     return (
@@ -28,6 +29,12 @@ function BoardPage() {
             </aside>
             <main className="page__main">
                 <div className={styles.header}>
+                    <div className={styles[`header__btn-box`]}>
+                        <Button variant={"outline"} size={"icon"}>
+                            <ChevronLeft />
+                        </Button>
+                        <Button variant={"secondary"}>저장</Button>
+                    </div>
                     <div className={styles.header__top}>
                         {/* 제목 입력 Input 섹션 */}
                         <input type="text" placeholder="Enter Title Here!" className={styles.header__top__input} />
@@ -43,7 +50,7 @@ function BoardPage() {
                             <LabelDatePicker label={"From"} />
                             <LabelDatePicker label={"To"} />
                         </div>
-                        <Button className="text-white bg-[#E79057] hover:bg-[#E79057] hover:border hover:border-[#E26F24]">
+                        <Button className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg">
                             Add New Board
                         </Button>
                     </div>
