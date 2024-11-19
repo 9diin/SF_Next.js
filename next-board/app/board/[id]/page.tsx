@@ -1,15 +1,7 @@
-"use client";
-
-import { useState } from "react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { Button, Calendar, SearchBar, Progress, Popover, PopoverContent, PopoverTrigger } from "@/components/ui";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
 import styles from "./page.module.scss";
 
 function BoardPage() {
-    const [date, setDate] = useState<Date>();
-
     return (
         <div className="page">
             <aside className="page__aside">
@@ -47,47 +39,9 @@ function BoardPage() {
                     </div>
                     {/* 캘린더 + Add New Board 버튼 섹션 */}
                     <div className={styles.header__bottom}>
-                        <div className="flex items-center">
-                            <div className="flex items-center gap-3">
-                                <small className="text-sm font-medium leading-none text-[#6D6D6D]">From </small>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={"outline"}
-                                            className={cn(
-                                                "w-[280px] justify-start text-left font-normal",
-                                                !date && "text-muted-foreground"
-                                            )}
-                                        >
-                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {date ? format(date, "PPP") : <span>Pick a date</span>}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0">
-                                        <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-                                    </PopoverContent>
-                                </Popover>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <small className="text-sm font-medium leading-none text-[#6D6D6D]">To</small>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={"outline"}
-                                            className={cn(
-                                                "w-[280px] justify-start text-left font-normal",
-                                                !date && "text-muted-foreground"
-                                            )}
-                                        >
-                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {date ? format(date, "PPP") : <span>Pick a date</span>}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0">
-                                        <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-                                    </PopoverContent>
-                                </Popover>
-                            </div>
+                        <div className="flex items-center gap-5">
+                            <LabelDatePicker label={"From"} />
+                            <LabelDatePicker label={"To"} />
                         </div>
                         <Button className="text-white bg-[#E79057] hover:bg-[#E79057] hover:border hover:border-[#E26F24]">
                             Add New Board
