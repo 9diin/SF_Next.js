@@ -12,10 +12,7 @@ function InitPage() {
                 {/* 검색창 UI */}
                 <SearchBar placeholder="검색어를 입력하세요." />
                 {/* Add New Page 버튼 UI */}
-                <Button
-                    className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]"
-                    onClick={() => router.push("/board/1")}
-                >
+                <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]" onClick={() => router.push("/board/1")}>
                     Add New Page
                 </Button>
                 {/* TODO 목록 UI 하나 */}
@@ -34,19 +31,18 @@ function InitPage() {
                 </div>
             </aside>
             <main className="page__main">
-                <div className="flex flex-col items-center justify-center gap-5 mb-6">
-                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">How to start:</h3>
-                    <div className="flex flex-col items-center gap-3">
-                        <small className="text-sm font-normal leading-none">1. Create a page</small>
-                        <small className="text-sm font-normal leading-none">2. Add boards to page</small>
+                <div className="w-full h-full flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center gap-5 mb-6">
+                        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">How to start:</h3>
+                        <div className="flex flex-col items-center gap-3">
+                            <small className="text-sm font-normal leading-none">1. Create a page</small>
+                            <small className="text-sm font-normal leading-none">2. Add boards to page</small>
+                        </div>
                     </div>
+                    <Button className="text-[#E79057] bg-transparent border border-[#E79057] hover:bg-[#FFF9F5] w-[180px]" onClick={() => router.push("/board/1")}>
+                        Add New Page
+                    </Button>
                 </div>
-                <Button
-                    className="text-[#E79057] bg-transparent border border-[#E79057] hover:bg-[#FFF9F5] w-[180px]"
-                    onClick={() => router.push("/board/1")}
-                >
-                    Add New Page
-                </Button>
             </main>
         </div>
     );
