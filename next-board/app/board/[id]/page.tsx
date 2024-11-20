@@ -40,8 +40,6 @@ function BoardPage() {
 
     /** 저장 버튼 클릭 시 */
     const onSave = async () => {
-        console.log(task);
-
         const { status } = await supabase
             .from("todos")
             .update({ title: title })
@@ -55,6 +53,9 @@ function BoardPage() {
             getData(); // 데이터 갱신
         }
     };
+
+    /** 전체 삭제 버튼 클릭 시 */
+    const onDeleteAll = () => {};
 
     /** Add New Board 버튼을 클릭 시 */
     const createBoard = () => {
@@ -153,9 +154,14 @@ function BoardPage() {
                         <Button variant={"outline"} size={"icon"}>
                             <ChevronLeft />
                         </Button>
-                        <Button variant={"secondary"} onClick={onSave}>
-                            저장
-                        </Button>
+                        <div className="flex items-center gap-2">
+                            <Button variant={"secondary"} onClick={onSave}>
+                                저장
+                            </Button>
+                            <Button className="text-rose-600 bg-red-50 hover:bg-rose-50" onClick={onDeleteAll}>
+                                삭제
+                            </Button>
+                        </div>
                     </div>
                     <div className={styles.header__top}>
                         {/* 제목 입력 Input 섹션 */}

@@ -10,8 +10,11 @@
     background-color: #ffffff;
 
     &__btn-box {
+        width: 100%;
+
         display: flex;
         align-items: center;
+        justify-content: space-between;
 
         gap: 8px;
     }
