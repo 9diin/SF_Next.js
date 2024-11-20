@@ -1,9 +1,6 @@
 "use client";
 
-// import { useState, useEffect } from "react";
-// import Image from "next/image";
-
-// import { supabase } from "@/lib/supabase";
+import Image from "next/image";
 import { CardBoard } from "@/features";
 import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
 import { ChevronLeft } from "lucide-react";
@@ -16,7 +13,9 @@ function BoardPage() {
                 {/* 검색창 UI */}
                 <SearchBar placeholder="검색어를 입력하세요." />
                 {/* Add New Page 버튼 UI */}
-                <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]">Add New Page</Button>
+                <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]">
+                    Add New Page
+                </Button>
                 {/* TODO 목록 UI 하나 */}
                 <div className="flex flex-col mt-4 gap-2">
                     <small className="text-sm font-medium leading-none text-[#A6A6A6]">9Diin의 TODO-LIST</small>
@@ -55,7 +54,9 @@ function BoardPage() {
                             <LabelDatePicker label={"From"} />
                             <LabelDatePicker label={"To"} />
                         </div>
-                        <Button className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg">Add New Board</Button>
+                        <Button className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg">
+                            Add New Board
+                        </Button>
                     </div>
                 </div>
                 <div className={styles.body}>
@@ -65,7 +66,7 @@ function BoardPage() {
                         <small className="text-sm font-medium leading-none text-[#6D6D6D] mt-3 mb-7">
                             Click the button and start flashing!
                         </small>
-                        <button onClick={createBoard}>
+                        <button>
                             <Image src="/assets/images/button.svg" width={74} height={74} alt="rounded-button" />
                         </button>
                     </div> */}

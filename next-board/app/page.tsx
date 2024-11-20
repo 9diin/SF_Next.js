@@ -1,10 +1,28 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 import { Button, SearchBar } from "@/components/ui";
 
 function InitPage() {
     const router = useRouter();
+
+    const createPage = async () => {
+        /** Supabase의 todo-list 테이블에 ROW 데이터 생성 */
+        const { data, status, error } = await supabase
+            .from("todos")
+            .insert([{ title: "", start_date: null, end_date: null, boards: [] }])
+            .select();
+
+        console.log(data);
+
+        if (status === 201) {
+            /** TOAST UI 띄우기 */
+            // 설치코드: npx shadcn@latest add toast
+        }
+
+        router.push("/board/1");
+    };
 
     return (
         <div className="page">
@@ -12,7 +30,10 @@ function InitPage() {
                 {/* 검색창 UI */}
                 <SearchBar placeholder="검색어를 입력하세요." />
                 {/* Add New Page 버튼 UI */}
-                <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]" onClick={() => router.push("/board/1")}>
+                <Button
+                    className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]"
+                    onClick={createPage}
+                >
                     Add New Page
                 </Button>
                 {/* TODO 목록 UI 하나 */}
@@ -39,7 +60,10 @@ function InitPage() {
                             <small className="text-sm font-normal leading-none">2. Add boards to page</small>
                         </div>
                     </div>
-                    <Button className="text-[#E79057] bg-transparent border border-[#E79057] hover:bg-[#FFF9F5] w-[180px]" onClick={() => router.push("/board/1")}>
+                    <Button
+                        className="text-[#E79057] bg-transparent border border-[#E79057] hover:bg-[#FFF9F5] w-[180px]"
+                        onClick={() => router.push("/board/1")}
+                    >
                         Add New Page
                     </Button>
                 </div>
