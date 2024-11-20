@@ -3,25 +3,38 @@
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Button, SearchBar } from "@/components/ui";
+import { useToast } from "@/hooks/use-toast";
 
 function InitPage() {
     const router = useRouter();
+    const { toast } = useToast();
 
     const createPage = async () => {
         /** Supabase의 todo-list 테이블에 ROW 데이터 생성 */
+        /** asyn-await 구문이니까 에러핸들링을 추후 try-catch-finally를 사용하자. */
         const { data, status, error } = await supabase
             .from("todos")
             .insert([{ title: "", start_date: null, end_date: null, boards: [] }])
             .select();
 
-        console.log(data);
-
-        if (status === 201) {
+        if (status === 201 && data) {
             /** TOAST UI 띄우기 */
             // 설치코드: npx shadcn@latest add toast
+            toast({
+                title: "새로운 TODO-LIST가 생성되었습니다.",
+                description: "Supabase 데이터베이스를 참고해보세요.",
+            });
+            router.push(`/board/${data[0].id}`);
         }
 
-        router.push("/board/1");
+        if (error) {
+            console.error(error);
+            toast({
+                variant: "destructive",
+                title: "에러가 발생했습니다.",
+                description: "개발자 도구창을 확인하세요.",
+            });
+        }
     };
 
     return (

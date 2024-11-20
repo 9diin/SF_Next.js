@@ -1,12 +1,53 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
+import { nanoid } from "nanoid";
+/** FSD 컴포넌트 */
 import { CardBoard } from "@/features";
 import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
 import { ChevronLeft } from "lucide-react";
+/** 스타일 */
 import styles from "./page.module.scss";
 
+interface BoardContent {
+    boardId: string | number;
+    isCompleted: boolean;
+    title: string;
+    startDate: Date | string;
+    endDate: Date | string;
+    content: string;
+}
+
 function BoardPage() {
+    /** Supabase 'todos' 테이블에서 사용될 각 ROW 데이터 COLUMN */
+    const [title, setTitle] = useState<string>(""); // 필수 값 처리 예정
+    const [startDate, setStartDate] = useState<Date>(new Date()); // 필수 값 처리 예정
+    const [endDate, setEndDate] = useState<Date>(new Date()); // 필수 값 처리 예정
+    const [boards, setBoards] = useState<BoardContent[]>([]); // 필수 값으로 처리할 지 안할 지 추후 고민
+
+    /** Add New Board 버튼을 클릭 시 */
+    const createBoard = () => {
+        let newBoards: BoardContent[] = [];
+        const boardContent = {
+            boardId: nanoid(),
+            isCompleted: false,
+            title: "",
+            startDate: "",
+            endDate: "",
+            content: "",
+        };
+
+        /** Supabase에 만약 데이터가 있을 때 */
+        if (boards.length) {
+            newBoards = [...boards];
+            newBoards.push(boardContent);
+        } else {
+            /** Supabase에 만약 데이터가 없을 때 */
+            newBoards.push(boardContent);
+        }
+    };
+
     return (
         <div className="page">
             <aside className="page__aside">
@@ -54,7 +95,10 @@ function BoardPage() {
                             <LabelDatePicker label={"From"} />
                             <LabelDatePicker label={"To"} />
                         </div>
-                        <Button className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg">
+                        <Button
+                            className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg"
+                            onClick={createBoard}
+                        >
                             Add New Board
                         </Button>
                     </div>
