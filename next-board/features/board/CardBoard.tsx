@@ -1,17 +1,5 @@
-import {
-    Button,
-    Card,
-    Checkbox,
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    LabelDatePicker,
-    Separator,
-} from "@/components/ui";
+import { MarkdownEditorDialog } from "@/features";
+import { Button, Card, Checkbox, LabelDatePicker, Separator } from "@/components/ui";
 import { ChevronUp } from "lucide-react";
 
 function CardBoard() {
@@ -51,25 +39,11 @@ function CardBoard() {
             </div>
             <Separator className="my-3" />
             {/* Add Contents 버튼 영역 */}
-            <Dialog>
-                <DialogTrigger asChild>
-                    <Button variant={"ghost"} className="font-normal text-[#6D6D6D]">
-                        Add Contents
-                    </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Edit profile</DialogTitle>
-                        <DialogDescription>
-                            Make changes to your profile here. Click save when you're done.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4"></div>
-                    <DialogFooter>
-                        <Button type="submit">Save changes</Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+            <MarkdownEditorDialog>
+                <Button variant={"ghost"} className="font-normal text-[#6D6D6D]">
+                    Add Contents
+                </Button>
+            </MarkdownEditorDialog>
         </Card>
     );
 }
