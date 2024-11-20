@@ -1,8 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/hooks/use-toast";
 /** FSD 컴포넌트 */
 import { CardBoard } from "@/features";
 import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
@@ -27,6 +30,8 @@ interface BoardContent {
 }
 
 function BoardPage() {
+    const pathname = usePathname();
+    const { toast } = useToast();
     /** Supabase 'todos' 테이블에서 사용될 각 ROW 데이터 COLUMN */
     const [title, setTitle] = useState<string>(""); // 필수 값 처리 예정
     const [startDate, setStartDate] = useState<Date>(new Date()); // 필수 값 처리 예정
@@ -34,7 +39,9 @@ function BoardPage() {
     const [task, setTask] = useState<Task | null>(null); // 필수 값으로 처리할 지 안할 지 추후 고민
 
     /** 저장 버튼 클릭 시 */
-    const onSave = () => {};
+    const onSave = () => {
+        console.log(task);
+    };
 
     /** Add New Board 버튼을 클릭 시 */
     const createBoard = () => {
@@ -49,14 +56,58 @@ function BoardPage() {
         };
 
         /** Supabase에 만약 데이터가 있을 때 */
-        if (task && task.boards.length > 0) {
+        if (task !== null && task.boards.length > 0) {
             newBoards = [...task.boards];
             newBoards.push(boardContent);
-        } else {
+            updateBoards(newBoards);
+        } else if (task !== null && task?.boards.length === 0) {
             /** Supabase에 만약 데이터가 없을 때 */
             newBoards.push(boardContent);
+            updateBoards(newBoards);
         }
     };
+
+    const updateBoards = async (newBoards: BoardContent[]) => {
+        console.log(newBoards);
+        const { status, error } = await supabase
+            .from("todos")
+            .update({ boards: newBoards })
+            .eq("id", Number(pathname.split("/")[2]));
+
+        if (status === 204) {
+            toast({
+                title: "새로운 TODO-BOARD가 생성되었습니다.",
+                description: "생성한 TODO-BOARD를 예쁘게 꾸며주세요.",
+            });
+            getData(); // 데이터 갱신
+        }
+
+        if (error) {
+            console.error(error);
+            toast({
+                variant: "destructive",
+                title: "에러가 발생했습니다.",
+                description: "개발자 도구창을 확인하세요.",
+            });
+        }
+    };
+
+    /** Supabase 데이터베이스의(기존에 생성한 페이지에) 데이터 유무 체크*/
+    const getData = async () => {
+        const { data } = await supabase.from("todos").select("*"); // 전체 조회
+
+        if (data !== null) {
+            data.forEach((task: Task) => {
+                if (task.id === Number(pathname.split("/")[2])) {
+                    setTask(task);
+                }
+            });
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     return (
         <div className="page">
@@ -116,21 +167,27 @@ function BoardPage() {
                     </div>
                 </div>
                 <div className={styles.body}>
-                    {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 없을 경우 */}
-                    {/* <div className={styles.body__noData}>
-                        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">There is no board yet.</h3>
-                        <small className="text-sm font-medium leading-none text-[#6D6D6D] mt-3 mb-7">
-                            Click the button and start flashing!
-                        </small>
-                        <button>
-                            <Image src="/assets/images/button.svg" width={74} height={74} alt="rounded-button" />
-                        </button>
-                    </div> */}
-                    {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 있을 경우 */}
-                    <div className={styles.body__isData}>
-                        <CardBoard />
-                        <CardBoard />
-                    </div>
+                    {task?.boards.length === 0 ? (
+                        <div className={styles.body__noData}>
+                            {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 없을 경우 */}
+                            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                                There is no board yet.
+                            </h3>
+                            <small className="text-sm font-medium leading-none text-[#6D6D6D] mt-3 mb-7">
+                                Click the button and start flashing!
+                            </small>
+                            <button>
+                                <Image src="/assets/images/button.svg" width={74} height={74} alt="rounded-button" />
+                            </button>
+                        </div>
+                    ) : (
+                        <div className={styles.body__isData}>
+                            {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 있을 경우 */}
+                            {task?.boards.map((board: BoardContent) => {
+                                return <CardBoard key={board.boardId} />;
+                            })}
+                        </div>
+                    )}
                 </div>
             </main>
         </div>
