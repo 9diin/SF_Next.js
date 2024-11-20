@@ -39,8 +39,21 @@ function BoardPage() {
     const [task, setTask] = useState<Task | null>(null); // 필수 값으로 처리할 지 안할 지 추후 고민
 
     /** 저장 버튼 클릭 시 */
-    const onSave = () => {
+    const onSave = async () => {
         console.log(task);
+
+        const { status } = await supabase
+            .from("todos")
+            .update({ title: title })
+            .eq("id", Number(pathname.split("/")[2]));
+
+        if (status === 204) {
+            toast({
+                title: "TODO-LIST 수정을 완료하였습니다.",
+                description: "수정한 TODO-LIST의 마감일을 꼭 지켜주세요!",
+            });
+            getData(); // 데이터 갱신
+        }
     };
 
     /** Add New Board 버튼을 클릭 시 */
@@ -100,6 +113,7 @@ function BoardPage() {
             data.forEach((task: Task) => {
                 if (task.id === Number(pathname.split("/")[2])) {
                     setTask(task);
+                    setTitle(task.title);
                 }
             });
         }
@@ -145,7 +159,13 @@ function BoardPage() {
                     </div>
                     <div className={styles.header__top}>
                         {/* 제목 입력 Input 섹션 */}
-                        <input type="text" placeholder="Enter Title Here!" className={styles.header__top__input} />
+                        <input
+                            type="text"
+                            placeholder="Enter Title Here!"
+                            className={styles.header__top__input}
+                            onChange={(event) => setTitle(event.target.value)} // title 상태값 갱신
+                            value={title}
+                        />
                         {/* 진행상황 척도 그래프 섹션 */}
                         <div className="flex items-center justify-start gap-4">
                             <small className="text-sm font-medium leading-none text-[#6D6D6D]">1/10 Completed</small>
@@ -176,7 +196,7 @@ function BoardPage() {
                             <small className="text-sm font-medium leading-none text-[#6D6D6D] mt-3 mb-7">
                                 Click the button and start flashing!
                             </small>
-                            <button>
+                            <button onClick={createBoard}>
                                 <Image src="/assets/images/button.svg" width={74} height={74} alt="rounded-button" />
                             </button>
                         </div>
