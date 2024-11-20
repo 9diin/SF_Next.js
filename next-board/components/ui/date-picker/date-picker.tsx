@@ -6,7 +6,11 @@ import { cn } from "@/lib/utils";
 import { Button, Calendar, Popover, PopoverContent, PopoverTrigger } from "@/components/ui";
 import { Calendar as CalendarIcon } from "lucide-react";
 
-function BasicDatePicker() {
+interface Props {
+    isReadOnly?: boolean;
+}
+
+function BasicDatePicker({ isReadOnly }: Props) {
     const [date, setDate] = useState<Date>();
 
     return (
@@ -15,14 +19,17 @@ function BasicDatePicker() {
                 <Button
                     variant={"outline"}
                     className={cn("w-[280px] justify-start text-left font-normal", !date && "text-muted-foreground")}
+                    disabled={isReadOnly} // "readOnly" 모드일 때 버튼 비활성화
                 >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {date ? format(date, "PPP") : <span>날짜를 선택하세요.</span>}
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-                <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-            </PopoverContent>
+            {!isReadOnly && (
+                <PopoverContent className="w-auto p-0">
+                    <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+                </PopoverContent>
+            )}
         </Popover>
     );
 }

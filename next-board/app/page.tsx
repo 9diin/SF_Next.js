@@ -43,10 +43,7 @@ function InitPage() {
                 {/* 검색창 UI */}
                 <SearchBar placeholder="검색어를 입력하세요." />
                 {/* Add New Page 버튼 UI */}
-                <Button
-                    className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]"
-                    onClick={createPage}
-                >
+                <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]" onClick={createPage}>
                     Add New Page
                 </Button>
                 {/* TODO 목록 UI 하나 */}
@@ -73,10 +70,7 @@ function InitPage() {
                             <small className="text-sm font-normal leading-none">2. Add boards to page</small>
                         </div>
                     </div>
-                    <Button
-                        className="text-[#E79057] bg-transparent border border-[#E79057] hover:bg-[#FFF9F5] w-[180px]"
-                        onClick={() => router.push("/board/1")}
-                    >
+                    <Button className="text-[#E79057] bg-transparent border border-[#E79057] hover:bg-[#FFF9F5] w-[180px]" onClick={() => router.push("/board/1")}>
                         Add New Page
                     </Button>
                 </div>

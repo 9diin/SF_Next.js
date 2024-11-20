@@ -12,22 +12,8 @@ import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
 import { ChevronLeft } from "lucide-react";
 /** 스타일 */
 import styles from "./page.module.scss";
-
-interface Task {
-    id: number;
-    title: string;
-    startDate: string | Date;
-    endDate: string | Date;
-    boards: BoardContent[];
-}
-interface BoardContent {
-    boardId: string | number;
-    isCompleted: boolean;
-    title: string;
-    startDate: Date | string;
-    endDate: Date | string;
-    content: string;
-}
+/** 타입 */
+import { Task, BoardContent } from "@/features/board/types";
 
 function BoardPage() {
     const pathname = usePathname();
@@ -40,17 +26,29 @@ function BoardPage() {
 
     /** 저장 버튼 클릭 시 */
     const onSave = async () => {
-        const { status } = await supabase
-            .from("todos")
-            .update({ title: title })
-            .eq("id", Number(pathname.split("/")[2]));
+        try {
+            if (!title || startDate || endDate) {
+                toast({
+                    variant: "destructive",
+                    title: "기입되지 않은 데이터(값)가 있습니다.",
+                    description: "수정한 TODO-LIST의 마감일을 꼭 지켜주세요!",
+                });
+            } else {
+                const { status } = await supabase
+                    .from("todos")
+                    .update({ title: title, start_date: startDate, end_date: endDate })
+                    .eq("id", Number(pathname.split("/")[2]));
 
-        if (status === 204) {
-            toast({
-                title: "TODO-LIST 수정을 완료하였습니다.",
-                description: "수정한 TODO-LIST의 마감일을 꼭 지켜주세요!",
-            });
-            getData(); // 데이터 갱신
+                if (status === 204) {
+                    toast({
+                        title: "TODO-LIST 수정을 완료하였습니다.",
+                        description: "수정한 TODO-LIST의 마감일을 꼭 지켜주세요!",
+                    });
+                    getData(); // 데이터 갱신
+                }
+            }
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -79,31 +77,34 @@ function BoardPage() {
     };
 
     const updateBoards = async (newBoards: BoardContent[]) => {
-        console.log(newBoards);
-        const { status, error } = await supabase
-            .from("todos")
-            .update({ boards: newBoards })
-            .eq("id", Number(pathname.split("/")[2]));
+        try {
+            const { status, error } = await supabase
+                .from("todos")
+                .update({ boards: newBoards })
+                .eq("id", Number(pathname.split("/")[2]));
 
-        if (status === 204) {
-            toast({
-                title: "새로운 TODO-BOARD가 생성되었습니다.",
-                description: "생성한 TODO-BOARD를 예쁘게 꾸며주세요.",
-            });
-            getData(); // 데이터 갱신
-        }
+            if (status === 204) {
+                toast({
+                    title: "새로운 TODO-BOARD가 생성되었습니다.",
+                    description: "생성한 TODO-BOARD를 예쁘게 꾸며주세요.",
+                });
+                getData(); // 데이터 갱신
+            }
 
-        if (error) {
-            console.error(error);
-            toast({
-                variant: "destructive",
-                title: "에러가 발생했습니다.",
-                description: "개발자 도구창을 확인하세요.",
-            });
+            if (error) {
+                console.error(error);
+                toast({
+                    variant: "destructive",
+                    title: "에러가 발생했습니다.",
+                    description: "개발자 도구창을 확인하세요.",
+                });
+            }
+        } catch (error) {
+            console.log(error);
         }
     };
 
-    /** Supabase 데이터베이스의(기존에 생성한 페이지에) 데이터 유무 체크*/
+    /** Supabase 데이터베이스의(기존에 생성한 페이지에) 데이터 유무 체크 */
     const getData = async () => {
         const { data } = await supabase.from("todos").select("*"); // 전체 조회
 
@@ -127,9 +128,7 @@ function BoardPage() {
                 {/* 검색창 UI */}
                 <SearchBar placeholder="검색어를 입력하세요." />
                 {/* Add New Page 버튼 UI */}
-                <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]">
-                    Add New Page
-                </Button>
+                <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]">Add New Page</Button>
                 {/* TODO 목록 UI 하나 */}
                 <div className="flex flex-col mt-4 gap-2">
                     <small className="text-sm font-medium leading-none text-[#A6A6A6]">9Diin의 TODO-LIST</small>
@@ -181,10 +180,7 @@ function BoardPage() {
                             <LabelDatePicker label={"From"} />
                             <LabelDatePicker label={"To"} />
                         </div>
-                        <Button
-                            className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg"
-                            onClick={createBoard}
-                        >
+                        <Button className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg" onClick={createBoard}>
                             Add New Board
                         </Button>
                     </div>
@@ -193,12 +189,8 @@ function BoardPage() {
                     {task?.boards.length === 0 ? (
                         <div className={styles.body__noData}>
                             {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 없을 경우 */}
-                            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-                                There is no board yet.
-                            </h3>
-                            <small className="text-sm font-medium leading-none text-[#6D6D6D] mt-3 mb-7">
-                                Click the button and start flashing!
-                            </small>
+                            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">There is no board yet.</h3>
+                            <small className="text-sm font-medium leading-none text-[#6D6D6D] mt-3 mb-7">Click the button and start flashing!</small>
                             <button onClick={createBoard}>
                                 <Image src="/assets/images/button.svg" width={74} height={74} alt="rounded-button" />
                             </button>
@@ -207,7 +199,7 @@ function BoardPage() {
                         <div className={styles.body__isData}>
                             {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 있을 경우 */}
                             {task?.boards.map((board: BoardContent) => {
-                                return <CardBoard key={board.boardId} />;
+                                return <CardBoard key={board.boardId} data={board} handleBoards={setTask} />;
                             })}
                         </div>
                     )}
