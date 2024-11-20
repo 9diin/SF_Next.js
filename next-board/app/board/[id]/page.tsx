@@ -1,14 +1,28 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 /** FSD 컴포넌트 */
 import { CardBoard } from "@/features";
-import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+    Button,
+    SearchBar,
+    Progress,
+    LabelDatePicker,
+} from "@/components/ui";
 import { ChevronLeft } from "lucide-react";
 /** 스타일 */
 import styles from "./page.module.scss";
@@ -30,6 +44,7 @@ interface BoardContent {
 }
 
 function BoardPage() {
+    const router = useRouter();
     const pathname = usePathname();
     const { toast } = useToast();
     /** Supabase 'todos' 테이블에서 사용될 각 ROW 데이터 COLUMN */
@@ -55,7 +70,20 @@ function BoardPage() {
     };
 
     /** 전체 삭제 버튼 클릭 시 */
-    const onDeleteAll = () => {};
+    const onDeleteAll = async () => {
+        const { status } = await supabase
+            .from("todos")
+            .delete()
+            .eq("id", Number(pathname.split("/")[2]));
+
+        if (status === 204) {
+            toast({
+                title: "선택한 TODO-LIST가 삭제되었습니다.",
+                description: "새로운 TASK가 생기시면 언제든 추가해주세요!",
+            });
+            router.push("/");
+        }
+    };
 
     /** Add New Board 버튼을 클릭 시 */
     const createBoard = () => {
@@ -158,9 +186,24 @@ function BoardPage() {
                             <Button variant={"secondary"} onClick={onSave}>
                                 저장
                             </Button>
-                            <Button className="text-rose-600 bg-red-50 hover:bg-rose-50" onClick={onDeleteAll}>
-                                삭제
-                            </Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button className="text-rose-600 bg-red-50 hover:bg-rose-50">삭제</Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>해당 TASK를 정말로 삭제하시겠습니까?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            이 작업은 취소할 수 없습니다. 삭제가 진행되면 귀하의 게시물은 영구적으로
+                                            삭제됩니다.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>취소</AlertDialogCancel>
+                                        <AlertDialogAction onClick={onDeleteAll}>삭제</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
                         </div>
                     </div>
                     <div className={styles.header__top}>
