@@ -10,6 +10,13 @@ import { ChevronLeft } from "lucide-react";
 /** 스타일 */
 import styles from "./page.module.scss";
 
+interface Task {
+    id: number;
+    title: string;
+    startDate: string | Date;
+    endDate: string | Date;
+    boards: BoardContent[];
+}
 interface BoardContent {
     boardId: string | number;
     isCompleted: boolean;
@@ -24,7 +31,10 @@ function BoardPage() {
     const [title, setTitle] = useState<string>(""); // 필수 값 처리 예정
     const [startDate, setStartDate] = useState<Date>(new Date()); // 필수 값 처리 예정
     const [endDate, setEndDate] = useState<Date>(new Date()); // 필수 값 처리 예정
-    const [boards, setBoards] = useState<BoardContent[]>([]); // 필수 값으로 처리할 지 안할 지 추후 고민
+    const [task, setTask] = useState<Task | null>(null); // 필수 값으로 처리할 지 안할 지 추후 고민
+
+    /** 저장 버튼 클릭 시 */
+    const onSave = () => {};
 
     /** Add New Board 버튼을 클릭 시 */
     const createBoard = () => {
@@ -39,8 +49,8 @@ function BoardPage() {
         };
 
         /** Supabase에 만약 데이터가 있을 때 */
-        if (boards.length) {
-            newBoards = [...boards];
+        if (task && task.boards.length > 0) {
+            newBoards = [...task.boards];
             newBoards.push(boardContent);
         } else {
             /** Supabase에 만약 데이터가 없을 때 */
@@ -78,7 +88,9 @@ function BoardPage() {
                         <Button variant={"outline"} size={"icon"}>
                             <ChevronLeft />
                         </Button>
-                        <Button variant={"secondary"}>저장</Button>
+                        <Button variant={"secondary"} onClick={onSave}>
+                            저장
+                        </Button>
                     </div>
                     <div className={styles.header__top}>
                         {/* 제목 입력 Input 섹션 */}
