@@ -1,23 +1,22 @@
 "use client";
 
-import Image from "next/image";
+// import { useState, useEffect } from "react";
+// import Image from "next/image";
+
+// import { supabase } from "@/lib/supabase";
 import { CardBoard } from "@/features";
 import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
 import { ChevronLeft } from "lucide-react";
 import styles from "./page.module.scss";
 
 function BoardPage() {
-    // const createBoard = () => {};
-
     return (
         <div className="page">
             <aside className="page__aside">
                 {/* 검색창 UI */}
                 <SearchBar placeholder="검색어를 입력하세요." />
                 {/* Add New Page 버튼 UI */}
-                <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]">
-                    Add New Page
-                </Button>
+                <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]">Add New Page</Button>
                 {/* TODO 목록 UI 하나 */}
                 <div className="flex flex-col mt-4 gap-2">
                     <small className="text-sm font-medium leading-none text-[#A6A6A6]">9Diin의 TODO-LIST</small>
@@ -56,9 +55,7 @@ function BoardPage() {
                             <LabelDatePicker label={"From"} />
                             <LabelDatePicker label={"To"} />
                         </div>
-                        <Button className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg">
-                            Add New Board
-                        </Button>
+                        <Button className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg">Add New Board</Button>
                     </div>
                 </div>
                 <div className={styles.body}>
