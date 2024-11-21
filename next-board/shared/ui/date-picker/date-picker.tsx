@@ -1,17 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { Button, Calendar, Popover, PopoverContent, PopoverTrigger } from "@/components/ui";
+import { Button, Calendar, Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 interface Props {
     isReadOnly?: boolean;
+    onSetDate: (date: Date | undefined) => void;
 }
 
-function BasicDatePicker({ isReadOnly }: Props) {
-    const [date, setDate] = useState<Date>();
+function BasicDatePicker({ isReadOnly, onSetDate }: Props) {
+    const [date, setDate] = useState<Date | undefined>();
+
+    useEffect(() => {
+        onSetDate(date);
+    }, [date]);
 
     return (
         <Popover>

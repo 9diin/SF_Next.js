@@ -8,7 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 /** FSD 컴포넌트 */
 import { AlertPopup, CardBoard } from "@/features";
-import { Button, SearchBar, Progress, LabelDatePicker } from "@/components/ui";
+import { Button, SearchBar, Progress, LabelDatePicker } from "@/shared/ui";
 import { ChevronLeft } from "lucide-react";
 /** 스타일 */
 import styles from "./page.module.scss";
@@ -24,6 +24,8 @@ function BoardPage() {
     const [endDate, setEndDate] = useState<Date>(new Date()); // 필수 값 처리 예정
     const [task, setTask] = useState<Task | null>(null); // 필수 값으로 처리할 지 안할 지 추후 고민
 
+    const [test, setTest] = useState<Task[]>([]);
+
     /** 저장 버튼 클릭 시 */
     const handleSave = async () => {
         if (!title || !startDate || !endDate) {
@@ -37,7 +39,11 @@ function BoardPage() {
         try {
             const { status } = await supabase
                 .from("todos")
-                .update({ title: title, start_date: startDate, end_date: endDate })
+                .update({
+                    title: title,
+                    start_date: startDate,
+                    end_date: endDate,
+                })
                 .eq("id", Number(id));
 
             if (status === 204) {
@@ -103,18 +109,26 @@ function BoardPage() {
 
     /** Supabase 데이터베이스의(기존에 생성한 페이지에) 데이터 유무 체크 */
     const getData = async () => {
-        const { data } = await supabase.from("todos").select("*").eq("id", id); // 전체 조회
+        const { data } = await supabase.from("todos").select("*").eq("id", id);
 
         if (data !== null) {
-            data.forEach((task: Task) => {
-                setTask(task);
-                setTitle(task.title);
-            });
+            setTask(data[0]);
+            setTitle(data[0].title);
+            setStartDate(data[0].start_date);
+            setEndDate(data[0].end_date);
+        }
+    };
+
+    const fnTest = async () => {
+        const { data } = await supabase.from("todos").select("*");
+        if (data !== null) {
+            setTest(data);
         }
     };
 
     useEffect(() => {
         getData();
+        fnTest();
     }, []);
 
     return (
@@ -130,14 +144,14 @@ function BoardPage() {
                 <div className="flex flex-col mt-4 gap-2">
                     <small className="text-sm font-medium leading-none text-[#A6A6A6]">9Diin의 TODO-LIST</small>
                     <ul className="flex flex-col">
-                        <li className="flex items-center gap-2 py-2 px-[10px] bg-[#F5F5F5] rounded-sm text-sm">
-                            <div className="h-[6px] w-[6px] rounded-full bg-[#00F38D]"></div>
-                            Enter Title
-                        </li>
-                        <li className="flex items-center gap-2 py-2 px-[10px] bg-[#F5F5F5] rounded-sm text-sm">
-                            <div className="h-[6px] w-[6px] rounded-full bg-[#00F38D]"></div>
-                            Enter Title
-                        </li>
+                        {test.map((item: Task) => {
+                            return (
+                                <li className="flex items-center gap-2 py-2 px-[10px] bg-[#F5F5F5] rounded-sm text-sm">
+                                    <div className="h-[6px] w-[6px] rounded-full bg-[#00F38D]"></div>
+                                    {item.title}
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
             </aside>
@@ -174,8 +188,8 @@ function BoardPage() {
                     {/* 캘린더 + Add New Board 버튼 섹션 */}
                     <div className={styles.header__bottom}>
                         <div className="flex items-center gap-5">
-                            <LabelDatePicker label={"From"} />
-                            <LabelDatePicker label={"To"} />
+                            <LabelDatePicker label={"From"} onSetDate={setStartDate} />
+                            <LabelDatePicker label={"To"} onSetDate={setEndDate} />
                         </div>
                         <Button
                             className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg"

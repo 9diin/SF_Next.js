@@ -13,7 +13,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui";
+} from "@/shared/ui";
 
 interface Props {
     children: React.ReactNode;

@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { Button, SearchBar } from "@/components/ui";
 import { useToast } from "@/hooks/use-toast";
+import { Button, SearchBar } from "@/shared/ui";
 
 function InitPage() {
     const router = useRouter();

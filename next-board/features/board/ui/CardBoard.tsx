@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 /** FSD 컴포넌트 */
 import { MarkdownEditorDialog } from "@/features";
-import { Button, Card, Checkbox, LabelDatePicker, Separator } from "@/components/ui";
+import { Button, Card, Checkbox, LabelDatePicker, Separator } from "@/shared/ui";
 import { ChevronUp } from "lucide-react";
 /** 타입 */
 import { Task, BoardContent } from "@/types";
@@ -16,6 +17,8 @@ interface Props {
 function CardBoard({ data, onBoards }: Props) {
     const { id } = useParams();
     const { toast } = useToast();
+    const [startDate, setStartDate] = useState<Date | undefined>(new Date()); // 필수 값 처리 예정
+    const [endDate, setEndDate] = useState<Date | undefined>(new Date()); // 필수 값 처리
 
     /** TODO-LIST의 개별 TODO-BOARD 삭제 */
     const handleDelete = async (selected: string | number) => {
@@ -71,8 +74,8 @@ function CardBoard({ data, onBoards }: Props) {
             <div className="w-full flex items-center justify-between">
                 {/* 캘린더 박스 */}
                 <div className="flex items-center gap-5">
-                    <LabelDatePicker label={"From"} isReadOnly={true} />
-                    <LabelDatePicker label={"To"} isReadOnly={true} />
+                    <LabelDatePicker label={"From"} isReadOnly={true} onSetDate={setStartDate} />
+                    <LabelDatePicker label={"To"} isReadOnly={true} onSetDate={setEndDate} />
                 </div>
                 {/* 버튼 박스 */}
                 <div className="flex items-center">
@@ -90,7 +93,7 @@ function CardBoard({ data, onBoards }: Props) {
             </div>
             <Separator className="my-3" />
             {/* Add Contents 버튼 영역 */}
-            <MarkdownEditorDialog>
+            <MarkdownEditorDialog data={data}>
                 <Button variant={"ghost"} className="font-normal text-[#6D6D6D]">
                     Add Contents
                 </Button>

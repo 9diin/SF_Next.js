@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
-import { Toaster } from "@/components/ui/toast/toaster";
+import { Toaster } from "@/shared/ui/toast/toaster";
 import "./styles/globals.css";
 import "./styles/main.scss";
 
