@@ -59,12 +59,7 @@ function CardBoard({ data, onBoards }: Props) {
             <div className="w-full flex items-center justify-between mb-4">
                 <div className="flex items-center justify-start gap-2">
                     <Checkbox className="h-5 w-5" />
-                    <input
-                        type="text"
-                        placeholder="제목 없음."
-                        className="text-xl outline-none bg-transparent"
-                        disabled={true}
-                    />
+                    <input type="text" placeholder="제목 없음." className="text-xl outline-none bg-transparent" disabled={true} />
                 </div>
                 <Button variant={"ghost"} size={"icon"}>
                     <ChevronUp className="text-[#6d6d6d]" />
@@ -74,19 +69,15 @@ function CardBoard({ data, onBoards }: Props) {
             <div className="w-full flex items-center justify-between">
                 {/* 캘린더 박스 */}
                 <div className="flex items-center gap-5">
-                    <LabelDatePicker label={"From"} isReadOnly={true} onSetDate={setStartDate} />
-                    <LabelDatePicker label={"To"} isReadOnly={true} onSetDate={setEndDate} />
+                    <LabelDatePicker label={"From"} isReadOnly={true} propDate={startDate} onSetDate={setStartDate} />
+                    <LabelDatePicker label={"To"} isReadOnly={true} propDate={endDate} onSetDate={setEndDate} />
                 </div>
                 {/* 버튼 박스 */}
                 <div className="flex items-center">
                     <Button variant={"ghost"} className="font-normal text-[#6D6D6D]">
                         Duplicate
                     </Button>
-                    <Button
-                        variant={"ghost"}
-                        className="font-normal text-rose-600 hover:text-rose-600 hover:bg-red-50"
-                        onClick={() => handleDelete(data.boardId)}
-                    >
+                    <Button variant={"ghost"} className="font-normal text-rose-600 hover:text-rose-600 hover:bg-red-50" onClick={() => handleDelete(data.boardId)}>
                         Delete
                     </Button>
                 </div>

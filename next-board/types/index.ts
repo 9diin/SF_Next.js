@@ -10,7 +10,7 @@ export interface BoardContent {
     boardId: string | number;
     isCompleted: boolean;
     title: string;
-    startDate: Date | string;
-    endDate: Date | string;
+    startDate: Date | undefined;
+    endDate: Date | undefined;
     content: string;
 }

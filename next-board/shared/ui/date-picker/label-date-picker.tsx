@@ -9,17 +9,16 @@ import { Calendar as CalendarIcon } from "lucide-react";
 interface Props {
     label: string;
     isReadOnly?: boolean;
+    propDate: Date | undefined | string;
     onSetDate: (date: Date | undefined) => void;
 }
 
-function LabelDatePicker({ label, isReadOnly, onSetDate }: Props) {
+function LabelDatePicker({ label, isReadOnly, propDate, onSetDate }: Props) {
     const [date, setDate] = useState<Date | undefined>();
 
     useEffect(() => {
-        if (onSetDate) {
-            onSetDate(date);
-        }
-    }, [date, onSetDate]);
+        onSetDate(date);
+    }, [date]);
 
     return (
         <div className="max-w-64 flex items-center gap-3">
@@ -28,10 +27,7 @@ function LabelDatePicker({ label, isReadOnly, onSetDate }: Props) {
                 <PopoverTrigger asChild>
                     <Button
                         variant={"outline"}
-                        className={cn(
-                            "w-[280px] justify-start text-left font-normal",
-                            !date && "text-muted-foreground"
-                        )}
+                        className={cn("w-[280px] justify-start text-left font-normal", !date && "text-muted-foreground")}
                         disabled={isReadOnly} // "readOnly" 모드일 때 버튼 비활성화
                     >
                         <CalendarIcon className="mr-2 h-4 w-4" />
@@ -43,7 +39,7 @@ function LabelDatePicker({ label, isReadOnly, onSetDate }: Props) {
                         <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
                     </PopoverContent>
                 )}
-            </Popover>{" "}
+            </Popover>
         </div>
     );
 }
