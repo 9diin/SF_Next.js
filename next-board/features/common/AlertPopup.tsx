@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -18,17 +18,15 @@ import {
 interface Props {
     children: React.ReactNode;
 }
+
 function AlertPopup({ children }: Props) {
+    const { id } = useParams();
     const router = useRouter();
-    const pathname = usePathname();
     const { toast } = useToast();
 
-    /** 전체 삭제 버튼 클릭 시 */
-    const onDeleteAll = async () => {
-        const { status } = await supabase
-            .from("todos")
-            .delete()
-            .eq("id", Number(pathname.split("/")[2]));
+    /** 전체 삭제 */
+    const handleDeleteAll = async () => {
+        const { status } = await supabase.from("todos").delete().eq("id", Number(id));
 
         if (status === 204) {
             toast({
@@ -46,13 +44,13 @@ function AlertPopup({ children }: Props) {
                 <AlertDialogHeader>
                     <AlertDialogTitle>해당 TASK를 정말로 삭제하시겠습니까?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        이 작업은 취소할 수 없습니다.
+                        이 작업이 실행되면 다시 취소할 수 없습니다.
                         <br /> 삭제가 진행되면 귀하의 게시물은 영구적으로 삭제됩니다.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>취소</AlertDialogCancel>
-                    <AlertDialogAction onClick={onDeleteAll} className="bg-red-600 hover:bg-rose-600">
+                    <AlertDialogAction onClick={handleDeleteAll} className="bg-red-600 hover:bg-rose-600">
                         삭제
                     </AlertDialogAction>
                 </AlertDialogFooter>

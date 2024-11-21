@@ -1,4 +1,4 @@
-import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 /** FSD 컴포넌트 */
@@ -6,56 +6,47 @@ import { MarkdownEditorDialog } from "@/features";
 import { Button, Card, Checkbox, LabelDatePicker, Separator } from "@/components/ui";
 import { ChevronUp } from "lucide-react";
 /** 타입 */
-import { Task, BoardContent } from "../types";
+import { Task, BoardContent } from "@/types";
 
 interface Props {
     data: BoardContent;
-    handleBoards: (data: Task) => void;
+    onBoards: (data: Task) => void;
 }
 
-function CardBoard({ data, handleBoards }: Props) {
-    const pathname = usePathname();
+function CardBoard({ data, onBoards }: Props) {
+    const { id } = useParams();
     const { toast } = useToast();
 
-    const onDelete = async (id: string | number) => {
+    /** TODO-LIST의 개별 TODO-BOARD 삭제 */
+    const handleDelete = async (selected: string | number) => {
         try {
-            const { data } = await supabase.from("todos").select("*");
+            const { data } = await supabase.from("todos").select("*").eq("id", Number(id));
 
             if (data !== null) {
-                data.forEach(async (todo: Task) => {
-                    if (todo.id === Number(pathname.split("/")[2])) {
-                        const { status } = await supabase
-                            .from("todos")
-                            .update({
-                                boards: todo.boards.filter((board: BoardContent) => board.boardId !== id),
-                            })
-                            .eq("id", todo.id);
-
-                        if (status === 204) {
-                            toast({
-                                title: "선택하신 TODO-BOARD가 삭제되었습니다.",
-                                description: "새로운 TODO-BOARD를 생성하려면 'Add New Board' 버튼을 눌러주세요!",
-                            });
-                            getData(); // 데이터 갱신
-                        }
-                    }
-                });
+                const { status } = await supabase
+                    .from("todos")
+                    .update({
+                        boards: data[0].boards.filter((board: BoardContent) => board.boardId !== selected),
+                    })
+                    .eq("id", Number(id));
+                if (status === 204) {
+                    toast({
+                        title: "선택하신 TODO-BOARD가 삭제되었습니다.",
+                        description: "새로운 TODO-BOARD를 생성하려면 'Add New Board' 버튼을 눌러주세요!",
+                    });
+                    getData(); // 데이터 갱신
+                }
             }
         } catch (error) {
             console.log(error);
         }
     };
-
     /** Supabase 데이터베이스의(기존에 생성한 페이지에) 데이터 유무 체크 */
     const getData = async () => {
-        const { data } = await supabase.from("todos").select("*"); // 전체 조회
+        const { data } = await supabase.from("todos").select("*").eq("id", id); // 전체 조회
 
         if (data !== null) {
-            data.forEach((task: Task) => {
-                if (task.id === Number(pathname.split("/")[2])) {
-                    handleBoards(task);
-                }
-            });
+            onBoards(data[0]);
         }
     };
 
@@ -65,7 +56,12 @@ function CardBoard({ data, handleBoards }: Props) {
             <div className="w-full flex items-center justify-between mb-4">
                 <div className="flex items-center justify-start gap-2">
                     <Checkbox className="h-5 w-5" />
-                    <input type="text" placeholder="제목 없음." className="text-xl outline-none bg-transparent" disabled={true} />
+                    <input
+                        type="text"
+                        placeholder="제목 없음."
+                        className="text-xl outline-none bg-transparent"
+                        disabled={true}
+                    />
                 </div>
                 <Button variant={"ghost"} size={"icon"}>
                     <ChevronUp className="text-[#6d6d6d]" />
@@ -83,7 +79,11 @@ function CardBoard({ data, handleBoards }: Props) {
                     <Button variant={"ghost"} className="font-normal text-[#6D6D6D]">
                         Duplicate
                     </Button>
-                    <Button variant={"ghost"} className="font-normal text-rose-600 hover:text-rose-600 hover:bg-red-50" onClick={() => onDelete(data.boardId)}>
+                    <Button
+                        variant={"ghost"}
+                        className="font-normal text-rose-600 hover:text-rose-600 hover:bg-red-50"
+                        onClick={() => handleDelete(data.boardId)}
+                    >
                         Delete
                     </Button>
                 </div>
